@@ -13,4 +13,7 @@ public class NotFoundException extends RuntimeException{
     public NotFoundException(String email){
         super("la mail " +email+ " non esiste");
     }
+    public NotFoundException(Long numero){
+        super(numero+ " non esiste");
+    }
 }

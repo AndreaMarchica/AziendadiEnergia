@@ -9,12 +9,13 @@ public record UtenteRequestDto(
         @Size(min=3,message="username  troppo corto")
         @NotNull(message="il campo non deve essere null")
        String username,
+        @Email
+        @NotNull
+       String email,
+
         @Size(min=3,message="username  troppo corto")
         @NotNull(message="il campo non deve essere null")
-       String email,
-       @Email
-       @NotNull
-       String password,
+         String password,
         @Size(min=3,message="username  troppo corto")
         @NotNull(message="il campo non deve essere null")
        String nome,

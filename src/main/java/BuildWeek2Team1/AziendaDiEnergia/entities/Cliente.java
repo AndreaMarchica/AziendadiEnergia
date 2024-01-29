@@ -30,12 +30,12 @@ public class Cliente {
     private long telefonoContatto;
     private String logoAziendale;
 
-    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    List<Indirizzo> indirizzi;
-    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    List<Fattura> fatture;
+//    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
+//    @JsonIgnore
+//    List<Indirizzo> indirizzi;
+//    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
+//    @JsonIgnore
+//    List<Fattura> fatture;
 //metodi
     public void setRagioneSociale(RagioneSociale ragioneSociale) {
         this.ragioneSociale = ragioneSociale;

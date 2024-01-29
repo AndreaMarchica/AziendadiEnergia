@@ -1,5 +1,6 @@
 package BuildWeek2Team1.AziendaDiEnergia.services;
 
+import BuildWeek2Team1.AziendaDiEnergia.entities.Role;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Utente;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.EmailAlreadyInDbException;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.NotFoundException;
@@ -19,8 +20,7 @@ public class UtenteService {
 
     @Autowired
     private UtenteRepository utenteDao;
-    @Autowired
-    private PasswordEncoder bcrypt;
+
 
 
 
@@ -28,17 +28,7 @@ public class UtenteService {
         return utenteDao.findAll();
     }
 
-    public UtenteRespondDto save(UtenteRequestDto body){
-        Utente utente = new Utente();
-        utente.setUsername(body.username());
-        utente.setEmail(body.email());
-        utente.setPassword(bcrypt.encode(body.password()));
-        utente.setNome(body.nome());
-        utente.setCognome(body.cognome());
-        utente.setAvatar(("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome()));
-        utenteDao.save(utente);
-        return new UtenteRespondDto(utente.getUuid(),utente.getUsername(), utente.getEmail());
-    }
+
 
     public Utente findByUUID(UUID uuid){
         return utenteDao.findById(uuid).orElseThrow(()->new NotFoundException(uuid));
@@ -48,22 +38,6 @@ public class UtenteService {
         utenteDao.delete(this.findByUUID(uuid));
     }
 
-    public UtenteRespondDto put(UtenteRequestDto body, UUID uuid){
-        Optional<Utente> checkEmail= utenteDao.findByEmail(body.email());
-        if(checkEmail.isEmpty()){
-        Utente utente = this.findByUUID(uuid);
-        utente.setUsername(body.username());
-        utente.setEmail(body.email());
-        utente.setPassword(bcrypt.encode(body.password()));
-        utente.setNome(body.nome());
-        utente.setCognome(body.cognome());
-        utente.setAvatar(("https://ui-avatars.com/api/?name=" + body.nome() + "+" + body.cognome()));
-        utenteDao.save(utente);
-        return new UtenteRespondDto(utente.getUuid(),utente.getUsername(), utente.getEmail());
-        }else{
-            throw new EmailAlreadyInDbException(body.email());
-        }
-    }
 
     public Utente findByEmail(String email){
         return utenteDao.findByEmail(email).orElseThrow(()-> new NotFoundException(email));

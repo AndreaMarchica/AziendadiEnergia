@@ -1,21 +1,23 @@
 package BuildWeek2Team1.AziendaDiEnergia.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "utenti")
 @Getter
 @ToString
+@JsonIgnoreProperties({"password", "authorities", "accountNonExpired",
+        "enabled", "accountNonLocked", "credentialsNonExpired"})
 public class Utente implements UserDetails {
 
     @Id
@@ -27,7 +29,12 @@ public class Utente implements UserDetails {
     private String nome;
     private String cognome;
     private String avatar;
+    @Enumerated(EnumType.STRING)
+    private Role ruolo;
 
+    public void setRuolo(Role ruolo) {
+        this.ruolo = ruolo;
+    }
     public void setUsername(String username) {
         this.username = username;
     }
@@ -55,26 +62,26 @@ public class Utente implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(String.valueOf(this.ruolo)));
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }
