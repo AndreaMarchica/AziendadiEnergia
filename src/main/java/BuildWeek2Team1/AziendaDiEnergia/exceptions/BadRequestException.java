@@ -6,12 +6,13 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
 @ResponseStatus(HttpStatus.BAD_REQUEST)
 public class BadRequestException extends RuntimeException{
-    private List<ObjectError> objectErrorlist;
+    private List<ObjectError> errorList;
 
     public BadRequestException(String message){super(message);
     }
@@ -19,7 +20,9 @@ public class BadRequestException extends RuntimeException{
     public BadRequestException(String message, List<ObjectError> list){
 
         super("Errori nel body"+message);
-        this.objectErrorlist=list;
+        this.errorList=list;
     }
+
+
 
 }
