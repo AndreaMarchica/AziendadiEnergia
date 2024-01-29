@@ -22,5 +22,5 @@ public class Comuni {
     private String Codice_Provincia;
     private String Progressivo_del_Comune;
     private String Denominazione_in_italiano;
-
+    private String Provincia;
 }

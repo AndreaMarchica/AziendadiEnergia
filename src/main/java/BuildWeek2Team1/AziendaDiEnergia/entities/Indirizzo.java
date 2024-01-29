@@ -1,5 +1,6 @@
 package BuildWeek2Team1.AziendaDiEnergia.entities;
 
+import BuildWeek2Team1.AziendaDiEnergia.entities.cvs.Comuni;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,7 +19,8 @@ public class Indirizzo {
     private UUID id;
     private String adress;
     private int civico;
-    private int localita;
-    private int cap;
+    private String localita;
+    private long cap;
 
+    private Comuni comuni;
 }

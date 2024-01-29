@@ -21,14 +21,23 @@ public class ComuniService {
     @Transactional
     public void  insertDataFromCsv2(String file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String line;
-            while ((line = reader.readLine()) != null){
+            String line ="";
+            while ((line = reader.readLine()) != null) {
                 String[] data = line.split(";");
                 Comuni comuni = new Comuni();
-                comuni.setCodice_Provincia(data[0].trim());
-                comuni.setProgressivo_del_Comune(data[1].trim());
-                comuni.setDenominazione_in_italiano(data[2].trim());
-                comuniRepository.save(comuni);
+
+                if (data.length >= 4) {
+                    comuni.setCodice_Provincia(data[0].trim());
+
+                    comuni.setProgressivo_del_Comune(data[1].trim());
+
+                    comuni.setDenominazione_in_italiano(data[2].trim());
+                    comuni.setProvincia(data[3].trim());
+
+                    comuniRepository.save(comuni);
+                } else {
+                    System.out.println("Errore con  " + line);
+                }
             }
         }catch (IOException e) {
             throw new RuntimeException("Errore nella lettura del file CSV" , e);
