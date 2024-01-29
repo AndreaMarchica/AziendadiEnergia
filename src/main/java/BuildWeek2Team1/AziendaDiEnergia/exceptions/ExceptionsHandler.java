@@ -2,6 +2,7 @@ package BuildWeek2Team1.AziendaDiEnergia.exceptions;
 
 import BuildWeek2Team1.AziendaDiEnergia.payloads.errors.ErrorsDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.errors.ErrorsDTOWithList;
+import BuildWeek2Team1.AziendaDiEnergia.payloads.errors.ErrorsPayload;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -54,8 +55,8 @@ public class ExceptionsHandler {
     }
       @org.springframework.web.bind.annotation.ExceptionHandler(EmailAlreadyInDbException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorDto handleEmailAlreadyInDb(Exception ex) {
-        return new ErrorDto(ex.getMessage(), LocalDateTime.now());
+    public ErrorsPayload handleEmailAlreadyInDb(Exception ex) {
+        return new ErrorsPayload(ex.getMessage(), LocalDateTime.now());
     }
 
 }

@@ -1,4 +1,4 @@
-package BuildWeek2Team1.AziendaDiEnergia.exceptions;
+package BuildWeek2Team1.AziendaDiEnergia.payloads.errors;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
