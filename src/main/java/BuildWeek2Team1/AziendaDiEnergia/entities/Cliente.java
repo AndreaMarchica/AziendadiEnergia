@@ -23,11 +23,11 @@ public class Cliente {
     private LocalDate dataUltimoContatto;
     private double fatturatoAnnuale;
     private String pec;
-    private long telefono;
+    private String telefono;
     private String emailContatto;
     private  String nomeContatto;
     private  String cognomeContatto;
-    private long telefonoContatto;
+    private String telefonoContatto;
     private String logoAziendale;
 
     @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
@@ -65,7 +65,7 @@ public class Cliente {
         this.pec = pec;
     }
 
-    public void setTelefono(long telefono) {
+    public void setTelefono(String telefono) {
         this.telefono = telefono;
     }
 
@@ -81,7 +81,7 @@ public class Cliente {
         this.cognomeContatto = cognomeContatto;
     }
 
-    public void setTelefonoContatto(long telefonoContatto) {
+    public void setTelefonoContatto(String telefonoContatto) {
         this.telefonoContatto = telefonoContatto;
     }
 
