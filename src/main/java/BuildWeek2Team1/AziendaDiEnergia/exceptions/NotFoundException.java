@@ -14,6 +14,6 @@ public class NotFoundException extends RuntimeException{
         super("la mail " +email+ " non esiste");
     }
     public NotFoundException(Long numero){
-        super(numero+ " non esiste");
+        super("Elemento con id " + numero + " non trovato");
     }
 }
