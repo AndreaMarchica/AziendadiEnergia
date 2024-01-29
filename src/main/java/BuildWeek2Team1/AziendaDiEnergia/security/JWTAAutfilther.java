@@ -1,8 +1,4 @@
 package BuildWeek2Team1.AziendaDiEnergia.security;
-
-import BaldassariLorenzo.Project.Entities.Utente;
-import BaldassariLorenzo.Project.Exceptions.UnauthorizedException;
-import BaldassariLorenzo.Project.Services.UtenteService;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Utente;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.UnauthorizedException;
 import BuildWeek2Team1.AziendaDiEnergia.services.UtenteService;
