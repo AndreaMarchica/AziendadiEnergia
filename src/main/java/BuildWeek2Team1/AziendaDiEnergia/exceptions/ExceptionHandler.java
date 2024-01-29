@@ -14,7 +14,7 @@ public class ExceptionHandler {
     public ErrorDto unauthorized(UnauthorizedException ex) {
         return new ErrorDto("ERRORE DI AUTENTICAZIONE!"+ex.getMessage(), LocalDateTime.now());
     }
-    @org.springframework.web.bind.annotation.ExceptionHandler(ItemNotFoundException.class)
+    @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorDto handleItemNotFound(Exception ex) {
         return new ErrorDto(ex.getMessage(), LocalDateTime.now());

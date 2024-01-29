@@ -2,7 +2,7 @@ package BuildWeek2Team1.AziendaDiEnergia.services;
 
 import BuildWeek2Team1.AziendaDiEnergia.entities.Utente;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.EmailAlreadyInDbException;
-import BuildWeek2Team1.AziendaDiEnergia.exceptions.ItemNotFoundException;
+import BuildWeek2Team1.AziendaDiEnergia.exceptions.NotFoundException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRequestDto;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRespondDto;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.UtenteRepository;
@@ -41,7 +41,7 @@ public class UtenteService {
     }
 
     public Utente findByUUID(UUID uuid){
-        return utenteDao.findById(uuid).orElseThrow(()->new ItemNotFoundException(uuid));
+        return utenteDao.findById(uuid).orElseThrow(()->new NotFoundException(uuid));
     }
 
     public void delete (UUID uuid){
@@ -66,6 +66,6 @@ public class UtenteService {
     }
 
     public Utente findByEmail(String email){
-        return utenteDao.findByEmail(email).orElseThrow(()-> new ItemNotFoundException(email));
+        return utenteDao.findByEmail(email).orElseThrow(()-> new NotFoundException(email));
     }
 }

@@ -40,7 +40,7 @@ public class JWTAAutfilther extends OncePerRequestFilter {
 
 
             String id = jwtTools.extractIdFromToken(accessToken);
-            Utente utente= utenteService.findById(UUID.fromString(id));
+            Utente utente= utenteService.findByUUID(UUID.fromString(id));
 
 
             Authentication authentication= new UsernamePasswordAuthenticationToken(utente,null,utente.getAuthorities());
