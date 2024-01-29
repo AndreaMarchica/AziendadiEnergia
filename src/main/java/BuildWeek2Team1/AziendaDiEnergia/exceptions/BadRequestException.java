@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+
 import java.util.List;
 
 @Getter
@@ -17,7 +18,7 @@ public class BadRequestException extends RuntimeException{
 
     public BadRequestException(String message, List<ObjectError> list){
 
-        super("errore nel payload "+message);
+        super("Errori nel body"+message);
         this.objectErrorlist=list;
     }
 
