@@ -1,6 +1,7 @@
 package BuildWeek2Team1.AziendaDiEnergia.controllers;
 
 import BuildWeek2Team1.AziendaDiEnergia.entities.Cliente;
+import BuildWeek2Team1.AziendaDiEnergia.entities.Role;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.BadRequestException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteResponseDTO;
@@ -22,20 +23,17 @@ public class ClienteController {
     ClienteService clienteService;
 
     @GetMapping("")
-    @PreAuthorize("hasAuthority('ADMIN', 'USER')")
     public Page<Cliente> getClienti(@RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "10") int size,
                                     @RequestParam(defaultValue = "id") String sortBy){
         return clienteService.getClienti(page, size, sortBy);
     }
     @GetMapping("/{clienteId}")
-    @PreAuthorize("hasAuthority('ADMIN', 'USER')")
     public Cliente findById(@PathVariable UUID clienteId) {
         return clienteService.findById(clienteId);
     }
 
     @PostMapping("")
-    @PreAuthorize("hasAuthority('ADMIN', 'USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public NewClienteResponseDTO saveCliente(@RequestBody @Validated NewClienteDTO body, BindingResult validation) throws Exception {
         if (validation.hasErrors()) {
@@ -45,12 +43,10 @@ public class ClienteController {
         return new NewClienteResponseDTO(newCliente.getId());
     }
     @PutMapping("/{clienteId}")
-    @PreAuthorize("hasAuthority('ADMIN', 'USER')")
     public Cliente findAndUpdate(@PathVariable UUID clienteId, @RequestBody Cliente body) {
         return clienteService.findByIdAndUpdate(clienteId, body);
     }
     @DeleteMapping("/{clienteId}")
-    @PreAuthorize("hasAuthority('ADMIN', 'USER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findAndDelete(@PathVariable UUID clienteId) {
         clienteService.findByIdAndDelete(clienteId);

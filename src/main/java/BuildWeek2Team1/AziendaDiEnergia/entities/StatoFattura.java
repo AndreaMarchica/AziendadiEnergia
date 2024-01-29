@@ -1,3 +1,4 @@
+/*
 package BuildWeek2Team1.AziendaDiEnergia.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,4 +25,4 @@ public class StatoFattura {
     @OneToMany(mappedBy = "statoFattura")
     @JsonIgnore
     private List<Fattura> fatture;
-}
+}*/

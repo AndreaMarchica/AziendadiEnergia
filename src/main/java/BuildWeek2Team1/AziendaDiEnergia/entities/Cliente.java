@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,12 +31,12 @@ public class Cliente {
     private String telefonoContatto;
     private String logoAziendale;
 
-    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
+/*    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
     @JsonIgnore
     List<Indirizzo> indirizzi;
     @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
     @JsonIgnore
-    List<Fattura> fatture;
+    List<Fattura> fatture;*/
 //metodi
     public void setRagioneSociale(RagioneSociale ragioneSociale) {
         this.ragioneSociale = ragioneSociale;

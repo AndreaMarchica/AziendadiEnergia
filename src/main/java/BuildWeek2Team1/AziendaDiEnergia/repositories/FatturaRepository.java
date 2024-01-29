@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Repository
-public interface FatturaRepository extends JpaRepository<Fattura, Long> {
+public interface FatturaRepository extends JpaRepository<Fattura, UUID> {
     Page<Fattura> findByImportoGreaterThan(double importo, Pageable pageable);
 
     Page<Fattura> findByImportoLessThan(double importo, Pageable pageable);
@@ -18,6 +19,6 @@ public interface FatturaRepository extends JpaRepository<Fattura, Long> {
 
     Page<Fattura> findByAnno(int anno, Pageable pageable);
 
-    Page<Fattura> findByClienteId(long clienteId, Pageable pageable);
+    Page<Fattura> findByClienteId(UUID clienteId, Pageable pageable);
 
 }

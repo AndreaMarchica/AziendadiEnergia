@@ -1,3 +1,4 @@
+/*
 package BuildWeek2Team1.AziendaDiEnergia.repositories;
 
 import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFattura;
@@ -10,4 +11,4 @@ public interface StatoFatturaRepository extends JpaRepository<StatoFattura, Long
     public Optional<StatoFattura> findByStato(String stato);
 
     public Optional<StatoFattura> findById(long id);
-}
+}*/

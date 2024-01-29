@@ -17,7 +17,7 @@ public record NewClienteDTO(
         @NotEmpty(message = "L'email è obbligatoria")
         @Email(message = "L'email inserita non è valida")
         String email,
-        @NotEmpty(message ="Campo obbligatorio")
+        @NotNull(message ="Campo obbligatorio")
         LocalDate dataUltimoContatto,
         @NotNull(message ="Campo obbligatorio")
         double fatturatoAnnuale,

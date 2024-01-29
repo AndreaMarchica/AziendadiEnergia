@@ -25,6 +25,7 @@ public class ClienteService {
         cliente.setPartitaIva(body.partitaIva());
         cliente.setEmail(body.email());
         cliente.setDataInserimento(LocalDate.now());
+        cliente.setDataUltimoContatto(body.dataUltimoContatto());
         cliente.setFatturatoAnnuale(body.fatturatoAnnuale());
         cliente.setPec(body.pec());
         cliente.setTelefono(body.telefono());
