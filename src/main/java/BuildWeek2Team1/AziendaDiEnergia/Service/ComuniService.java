@@ -31,7 +31,7 @@ public class ComuniService {
 
                     comuni.setProgressivo_del_Comune(data[1].trim());
 
-                    comuni.setDenominazione_in_italiano(data[2].trim());
+                    comuni.setDenominazione(data[2].trim());
                     comuni.setProvincia(data[3].trim());
 
                     comuniRepository.save(comuni);

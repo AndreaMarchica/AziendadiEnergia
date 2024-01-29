@@ -22,5 +22,8 @@ public class Indirizzo {
     private String localita;
     private long cap;
 
+
+    @ManyToOne
+    @JoinColumn
     private Comuni comuni;
 }
