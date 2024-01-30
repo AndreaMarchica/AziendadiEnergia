@@ -1,7 +1,8 @@
 
 package BuildWeek2Team1.AziendaDiEnergia.services;
 
-import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFattura;
+import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFatturaa;
+import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFatturaa;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.StatoFatturaDTO;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.StatoFatturaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,8 @@ public class StatoFatturaService {
     @Autowired
     StatoFatturaRepository statoFatturaRepository;
 
-    public StatoFattura save(StatoFatturaDTO body) {
-        StatoFattura statoFattura = new StatoFattura();
+    public StatoFatturaa save(StatoFatturaDTO body) {
+        StatoFatturaa statoFattura = new StatoFatturaa();
         statoFattura.setStato(body.stato());
         try {
             return statoFatturaRepository.save(statoFattura);
@@ -26,11 +27,11 @@ public class StatoFatturaService {
 
     }
 
-    public List<StatoFattura> findAll() {
+    public List<StatoFatturaa> findAll() {
         return statoFatturaRepository.findAll();
     }
 
-    public StatoFattura findByStato(String stato) {
+    public StatoFatturaa findByStato(String stato) {
         return statoFatturaRepository.findByStato(stato).orElseThrow(() -> new RuntimeException("Stato " + stato + " non trovato"));
     }
 }

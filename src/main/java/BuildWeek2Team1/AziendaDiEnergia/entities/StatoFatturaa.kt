@@ -1,4 +1,4 @@
-package BuildWeek2Team1.AziendaDiEnergia.enum
+package BuildWeek2Team1.AziendaDiEnergia.entities
 
 
 enum class StatoFatturaa {

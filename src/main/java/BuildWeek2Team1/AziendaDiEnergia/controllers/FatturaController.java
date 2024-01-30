@@ -28,7 +28,7 @@ public class FatturaController {
     private ClienteService clienteService;
 
 
-/*    @PostMapping("")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     public Fattura saveFattura(@RequestBody @Validated FatturaPostDTO body, BindingResult validation) throws Exception {
         if (validation.hasErrors()) {
@@ -36,7 +36,7 @@ public class FatturaController {
         } else {
             return fatturaService.save(body);
         }
-    }*/
+    }
 
     @GetMapping("")
     public Page<Fattura> getFatturaByFiltro(
@@ -58,14 +58,14 @@ public class FatturaController {
         return fatturaService.findById(idNumero);
     }
 
-/*    @PutMapping("/{idNumero}")
+   @PutMapping("/{idNumero}")
     public Fattura findAndUpdateById(@PathVariable UUID idNumero, @RequestBody @Validated FatturaPutDTO body, BindingResult validation) throws Exception {
         if (validation.hasErrors()) {
             throw new BadRequestException(String.valueOf(validation.getAllErrors()));
         } else {
             return fatturaService.findAndUpdateById(idNumero, body);
         }
-    }*/
+    }
 
     @DeleteMapping("/{idNumero}")
     @PreAuthorize("hasAuthority('ADMIN')")

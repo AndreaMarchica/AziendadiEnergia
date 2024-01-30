@@ -2,7 +2,7 @@ package BuildWeek2Team1.AziendaDiEnergia.services;
 
 import BuildWeek2Team1.AziendaDiEnergia.entities.Cliente;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Fattura;
-/*import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFattura;*/
+import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFatturaa;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.NotFoundException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPostDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPutDTO;
@@ -26,13 +26,13 @@ public class FatturaService {
     @Autowired
     ClienteService clienteService;
 
-/*    @Autowired
+  @Autowired
     StatoFatturaService statoFatturaService;
 
     public Fattura save(FatturaPostDTO body) {
         Cliente cliente = clienteService.findById(body.clienteId());
         Fattura newFattura = new Fattura();
-        StatoFattura statoFattura = statoFatturaService.findByStato("DA_APPROVARE");
+        StatoFatturaa statoFattura = statoFatturaService.findByStato("DA_APPROVARE");
         newFattura.setNumeroFattura(body.numeroFattura());
         newFattura.setImporto(body.importo());
         newFattura.setData(LocalDate.now());
@@ -40,7 +40,7 @@ public class FatturaService {
         newFattura.setAnno(LocalDate.now().getYear());
         newFattura.setStatoFattura(statoFattura);
         return fatturaRepository.save(newFattura);
-    }*/
+    }
 
 
     public Fattura findById(UUID id) {
@@ -49,9 +49,9 @@ public class FatturaService {
 
     }
 
-/*    public Fattura findAndUpdateById(UUID idNumero, FatturaPutDTO body) {
+   public Fattura findAndUpdateById(UUID idNumero, FatturaPutDTO body) {
         Fattura fattura = this.findById(idNumero);
-        StatoFattura statoFattura = statoFatturaService.findByStato(body.statoFattura());
+        StatoFatturaa statoFattura = statoFatturaService.findByStato(body.statoFattura());
         Cliente cliente = clienteService.findById(body.clienteId());
         fattura.setImporto(body.importo());
         fattura.setNumeroFattura(body.numeroFattura());
@@ -59,7 +59,7 @@ public class FatturaService {
         fattura.setCliente(cliente);
         fatturaRepository.save(fattura);
         return fattura;
-    }*/
+    }
 
 
     public Page<Fattura> getFatture(double importoGreater, double importoLess, String data, String statoFattura, int anno, UUID clientId, int page, int size, String orderBy) {
@@ -84,11 +84,11 @@ public class FatturaService {
         }
 
 
-/*        if (!statoFattura.isEmpty()) {
+       if (!statoFattura.isEmpty()) {
             fatture = fatture.stream()
                     .filter(f -> f.getStatoFattura().getStato().equals(statoFattura))
                     .collect(Collectors.toList());
-        }*/
+        }
         if (anno != 0) {
             fatture = fatture.stream()
                     .filter(f -> f.getAnno() == anno)

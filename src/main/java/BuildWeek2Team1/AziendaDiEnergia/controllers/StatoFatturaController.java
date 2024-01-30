@@ -1,6 +1,7 @@
 package BuildWeek2Team1.AziendaDiEnergia.controllers;
 
-import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFattura;
+import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFatturaa;
+import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFatturaa;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.BadRequestException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.StatoFatturaDTO;
 import BuildWeek2Team1.AziendaDiEnergia.services.StatoFatturaService;
@@ -23,13 +24,13 @@ public class StatoFatturaController {
     StatoFatturaService statoFatturaService;
 
     @GetMapping("")
-    public List<StatoFattura> findAll() {
+    public List<StatoFatturaa> findAll() {
         return statoFatturaService.findAll();
     }
 
     @PostMapping("")
     @PreAuthorize("hasAnyAuthority('ADMIN')")
-    public StatoFattura save(@RequestBody @Validated StatoFatturaDTO body, BindingResult validation) {
+    public StatoFatturaa save(@RequestBody @Validated StatoFatturaDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
         } else {
