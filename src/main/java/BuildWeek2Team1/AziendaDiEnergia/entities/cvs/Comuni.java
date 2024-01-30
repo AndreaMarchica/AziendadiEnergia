@@ -21,6 +21,15 @@ public class Comuni {
     private UUID id;
     private String Codice_Provincia;
     private String Progressivo_del_Comune;
-    private String Denominazione;
+    @Column(name = "denominazione")
+    private String denominazione;
     private String Provincia;
+    @Transient
+    private String regione;
+
+    @Transient
+    private String sigla;
+
+
+
 }

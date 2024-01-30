@@ -19,11 +19,18 @@ public class Indirizzo {
     private UUID id;
     private String adress;
     private int civico;
-    private String localita;
     private long cap;
+    private String localita;
+
 
 
     @ManyToOne
     @JoinColumn
     private Comuni comuni;
+    private String codiceProvincia;
+    private String progressivo;
+    private String provincia;
+    private String regione;
+    private String sigla;
+
 }
