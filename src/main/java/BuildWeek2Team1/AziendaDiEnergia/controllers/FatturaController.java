@@ -2,12 +2,12 @@ package BuildWeek2Team1.AziendaDiEnergia.controllers;
 
 
 import BuildWeek2Team1.AziendaDiEnergia.entities.Fattura;
+import BuildWeek2Team1.AziendaDiEnergia.exceptions.BadRequestException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPayloads.FatturaPostDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPayloads.FatturaPutDTO;
 import BuildWeek2Team1.AziendaDiEnergia.services.ClienteService;
 import BuildWeek2Team1.AziendaDiEnergia.services.FatturaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @RestController
@@ -30,9 +31,9 @@ public class FatturaController {
 
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Fattura saveFattura(@RequestBody @Validated FatturaPostDTO body, BindingResult validation) throws Exception {
+    public Fattura saveFattura(@RequestBody @Validated FatturaPostDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
-            throw new BadRequestException(String.valueOf(validation.getAllErrors()));
+            throw new BadRequestException("errore nel payload!"+validation.getAllErrors());
         } else {
             return fatturaService.save(body);
         }
@@ -41,16 +42,18 @@ public class FatturaController {
     @GetMapping("")
     public Page<Fattura> getFatturaByFiltro(
 
-            @RequestParam(defaultValue = "") String statoFattura,
-            @RequestParam(defaultValue = "") String data,
+            @RequestParam(defaultValue = "DA_APPROVARE") String statoFattura,
+            @RequestParam(defaultValue = "") LocalDate data,
             @RequestParam(defaultValue = "0") int anno,
             @RequestParam(defaultValue = "") UUID clientId,
-            @RequestParam(defaultValue = "0") double importoMin,
+            @RequestParam(defaultValue = "5") double importoMin,
             @RequestParam(defaultValue = "0") double importoMax,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String orderBy) {
-        return fatturaService.getFatture(importoMax, importoMin, data, statoFattura, anno, clientId, page, size, orderBy);
+        return fatturaService.getFatture(
+                importoMax, importoMin, data, statoFattura, anno, clientId,
+                page, size, orderBy);
     }
 
     @GetMapping("/{idNumero}")

@@ -1,24 +1,26 @@
 package BuildWeek2Team1.AziendaDiEnergia.repositories;
 
 import BuildWeek2Team1.AziendaDiEnergia.entities.Fattura;
+import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFattura;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Repository
 public interface FatturaRepository extends JpaRepository<Fattura, UUID> {
-    Page<Fattura> findByImportoGreaterThan(double importo, Pageable pageable);
+    List<Fattura> findByImportoBetween(double importoMin, double importoMax);
 
-    Page<Fattura> findByImportoLessThan(double importo, Pageable pageable);
 
-    Page<Fattura> findByData(LocalDate data, Pageable pageable);
+    List<Fattura> findByData(LocalDate data);
 
-    Page<Fattura> findByAnno(int anno, Pageable pageable);
+    List<Fattura> findByAnno(int anno );
 
-    Page<Fattura> findByClienteId(UUID clienteId, Pageable pageable);
+    List<Fattura> findByClienteId(UUID clienteId);
+    List<Fattura> findByStatoFattura(StatoFattura statoFattura);
 
 }
