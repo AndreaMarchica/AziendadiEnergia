@@ -4,6 +4,7 @@ package BuildWeek2Team1.AziendaDiEnergia.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -27,4 +28,15 @@ public class Fattura {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
+
+    @Override
+    public String toString() {
+        return "Fattura{" +
+                "numero_fattura=" + numero_fattura +
+                ", importo=" + importo +
+                ", data=" + data +
+                ", anno=" + anno +
+                ", statoFattura=" + statoFattura +
+                '}';
+    }
 }

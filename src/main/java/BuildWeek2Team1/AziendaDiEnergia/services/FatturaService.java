@@ -67,15 +67,14 @@ public class FatturaService {
 //                ok,clientId,anno,data,importoLess,importoGreater);
 
         if (importoGreater != 0 && importoLess != 0) {
-            Set<Fattura> lista1=fatturaRepository.findByImportoBetween(importoLess,importoGreater);
+            List<Fattura> lista1=fatturaRepository.findByImportoBetween(importoLess,importoGreater);
             fatture.addAll(lista1);
             System.out.println("importo");
             System.out.println(lista1);
         }
 
-
         if (data!= null) {
-            Set<Fattura> lista1=fatturaRepository.findByData(data);
+            List<Fattura> lista1=fatturaRepository.findByData(data);
             fatture.addAll(lista1);
             System.out.println("data");
 
@@ -84,23 +83,55 @@ public class FatturaService {
 
        if (!statoFattura.isEmpty()) {
            StatoFattura ok= StatoFattura.valueOf(statoFattura);
-           Set<Fattura> lista1=fatturaRepository.findByStatoFattura(ok);
+           List<Fattura> lista1=fatturaRepository.findByStatoFattura(ok);
            fatture.addAll(lista1);
            System.out.println("statofattura");
 
        }
         if (anno != 0) {
-            Set<Fattura> lista1=fatturaRepository.findByAnno(anno);
+            List<Fattura> lista1=fatturaRepository.findByAnno(anno);
             fatture.addAll(lista1);
             System.out.println("anno");
 
         }
         if (clientId != null) {
-            Set<Fattura> lista1=fatturaRepository.findByClienteId(clientId);
+            List<Fattura> lista1=fatturaRepository.findByClienteId(clientId);
             fatture.addAll(lista1);
             System.out.println("clientid");
 
         }
+
+        //dopo
+
+        System.out.println(fatture);
+
+        List<Fattura> filteredList=new ArrayList<>();
+        if (importoGreater != 0 && importoLess != 0) {
+           fatture = fatture.stream().filter(f->f.getImporto()>importoLess&&f.getImporto()<importoGreater).toList();
+
+            System.out.println(fatture);
+        }
+
+
+        if (data!= null) {
+
+            fatture= fatture.stream().filter(f->f.getData()==data).toList();
+        }
+
+
+        if (!statoFattura.isEmpty()) {
+            fatture=fatture.stream().filter(f->f.getStatoFattura().equals(statoFattura)).toList();
+        }
+        if (anno != 0) {
+
+            fatture=fatture.stream().filter(f->f.getAnno()==anno).toList();
+        }
+        if (clientId != null) {
+
+            fatture=fatture.stream().filter(f->f.getCliente().equals(clientId)).toList();
+
+        }
+
 
         return new PageImpl<>(fatture, pageable, fatture.size());
     }
