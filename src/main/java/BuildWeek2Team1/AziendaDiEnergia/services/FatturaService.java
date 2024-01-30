@@ -13,9 +13,7 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -48,7 +46,7 @@ public class FatturaService {
     }
 
    public Fattura findAndUpdateById(UUID idNumero, FatturaPutDTO body) {
-        Fattura fattura = this.findById(idNumero);;
+        Fattura fattura = this.findById(idNumero);
         Cliente cliente = clienteService.findById(body.clienteId());
         fattura.setImporto(body.importo());
         fattura.setStatoFattura(StatoFattura.valueOf(body.statoFattura()));
@@ -64,10 +62,12 @@ public class FatturaService {
                                     int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
 
-        List<Fattura> fatture= new ArrayList<>();
-//        List<Fattura> fatture = fatturaRepository.findAll();
+        List<Fattura> fatture=  new ArrayList<>();
+//        List<Fattura> fatture= fatturaRepository.findByStatoFatturaAndClienteIdAndAnnoAndDataAndImportoBetween(
+//                ok,clientId,anno,data,importoLess,importoGreater);
+
         if (importoGreater != 0 && importoLess != 0) {
-            List<Fattura> lista1=fatturaRepository.findByImportoBetween(importoLess,importoGreater);
+            Set<Fattura> lista1=fatturaRepository.findByImportoBetween(importoLess,importoGreater);
             fatture.addAll(lista1);
             System.out.println("importo");
             System.out.println(lista1);
@@ -75,7 +75,7 @@ public class FatturaService {
 
 
         if (data!= null) {
-            List<Fattura> lista1=fatturaRepository.findByData(data);
+            Set<Fattura> lista1=fatturaRepository.findByData(data);
             fatture.addAll(lista1);
             System.out.println("data");
 
@@ -83,27 +83,28 @@ public class FatturaService {
 
 
        if (!statoFattura.isEmpty()) {
-           List<Fattura> lista1=fatturaRepository.findByStatoFattura(StatoFattura.valueOf(statoFattura));
+           StatoFattura ok= StatoFattura.valueOf(statoFattura);
+           Set<Fattura> lista1=fatturaRepository.findByStatoFattura(ok);
            fatture.addAll(lista1);
            System.out.println("statofattura");
 
        }
         if (anno != 0) {
-            List<Fattura> lista1=fatturaRepository.findByAnno(anno);
+            Set<Fattura> lista1=fatturaRepository.findByAnno(anno);
             fatture.addAll(lista1);
             System.out.println("anno");
 
         }
         if (clientId != null) {
-            List<Fattura> lista1=fatturaRepository.findByClienteId(clientId);
+            Set<Fattura> lista1=fatturaRepository.findByClienteId(clientId);
             fatture.addAll(lista1);
             System.out.println("clientid");
 
         }
 
-
         return new PageImpl<>(fatture, pageable, fatture.size());
     }
+
 
 
     public void findAndDeleteByIdNumero(UUID id) {

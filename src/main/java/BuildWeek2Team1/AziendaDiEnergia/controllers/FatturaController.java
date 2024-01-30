@@ -42,17 +42,17 @@ public class FatturaController {
     @GetMapping("")
     public Page<Fattura> getFatturaByFiltro(
 
-            @RequestParam(defaultValue = "DA_APPROVARE") String statoFattura,
+            @RequestParam(defaultValue = "") String statoFattura,
             @RequestParam(defaultValue = "") LocalDate data,
             @RequestParam(defaultValue = "0") int anno,
             @RequestParam(defaultValue = "") UUID clientId,
-            @RequestParam(defaultValue = "5") double importoMin,
-            @RequestParam(defaultValue = "0") double importoMax,
+            @RequestParam(defaultValue = "0") double importoLess,
+            @RequestParam(defaultValue = "0") double importoGreater,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String orderBy) {
         return fatturaService.getFatture(
-                importoMax, importoMin, data, statoFattura, anno, clientId,
+                importoGreater,importoLess, data, statoFattura, anno, clientId,
                 page, size, orderBy);
     }
 
