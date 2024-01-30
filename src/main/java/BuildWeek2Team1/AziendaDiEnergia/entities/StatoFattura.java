@@ -1,7 +1,6 @@
-package BuildWeek2Team1.AziendaDiEnergia.entities
+package BuildWeek2Team1.AziendaDiEnergia.entities;
 
-
-enum class StatoFatturaa {
+public enum StatoFattura {
     BOZZA,
     DA_APPROVARE,
     PAGATA,

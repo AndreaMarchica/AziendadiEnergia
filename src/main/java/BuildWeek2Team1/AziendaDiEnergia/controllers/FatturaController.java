@@ -2,8 +2,8 @@ package BuildWeek2Team1.AziendaDiEnergia.controllers;
 
 
 import BuildWeek2Team1.AziendaDiEnergia.entities.Fattura;
-import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPostDTO;
-import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPutDTO;
+import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPayloads.FatturaPostDTO;
+import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPayloads.FatturaPutDTO;
 import BuildWeek2Team1.AziendaDiEnergia.services.ClienteService;
 import BuildWeek2Team1.AziendaDiEnergia.services.FatturaService;
 import io.swagger.v3.oas.annotations.tags.Tag;

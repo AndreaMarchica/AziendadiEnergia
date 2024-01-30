@@ -15,19 +15,16 @@ public class Fattura {
 
     @Id
     @GeneratedValue
-    private UUID id;
     @Column(name = "numero_fattura")
-    private String numeroFattura;
+    private UUID numero_fattura;
     private double importo;
     private LocalDate data;
     private int anno;
+    @Enumerated(EnumType.STRING)
+    private StatoFattura statoFattura;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-
-   @ManyToOne
-    @JoinColumn(name = "stato_fattura_id", unique = false)
-    private StatoFatturaa statoFattura;
 
 }
