@@ -22,16 +22,18 @@ public class ExceptionsHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST) // 400
     public ErrorsDTOWithList handleBadRequest(BadRequestException e) {
         List<String> errorsMessages = new ArrayList<>();
-        if (e.getErrorsList() != null)
+        if (e.getErrorsList() != null) {
+            System.out.println("errore!!!!!!" + errorsMessages);
             errorsMessages = e.getErrorsList().stream().map(err -> err.getDefaultMessage()).toList();
-        return new ErrorsDTOWithList(e.getMessage(), new Date(), errorsMessages);
+        }
+        return new ErrorsDTOWithList(e.getMessage(), new Date(),errorsMessages);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED) // 401
     public ErrorsDTO handleUnauthorized(UnauthorizedException e) {
         Date date = new Date();
-        return new ErrorsDTO(e.getMessage(), date);
+        return new ErrorsDTO("errore con l'autenticazione! "+e.getMessage(), date);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
