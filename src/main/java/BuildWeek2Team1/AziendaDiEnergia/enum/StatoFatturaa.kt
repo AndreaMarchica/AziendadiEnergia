@@ -1,7 +1,7 @@
 package BuildWeek2Team1.AziendaDiEnergia.enum
 
 
-enum class StatoFattura {
+enum class StatoFatturaa {
     BOZZA,
     DA_APPROVARE,
     PAGATA,

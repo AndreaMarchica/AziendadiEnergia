@@ -1,4 +1,4 @@
-/*
+
 package BuildWeek2Team1.AziendaDiEnergia.services;
 
 import BuildWeek2Team1.AziendaDiEnergia.entities.StatoFattura;
@@ -33,4 +33,4 @@ public class StatoFatturaService {
     public StatoFattura findByStato(String stato) {
         return statoFatturaRepository.findByStato(stato).orElseThrow(() -> new RuntimeException("Stato " + stato + " non trovato"));
     }
-}*/
+}
