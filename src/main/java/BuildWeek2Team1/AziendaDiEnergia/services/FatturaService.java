@@ -32,9 +32,9 @@ public class FatturaService {
         Fattura newFattura = new Fattura();
         newFattura.setStatoFattura(StatoFattura.DA_APPROVARE);
         newFattura.setImporto(body.importo());
-        newFattura.setData(LocalDate.now());
+        newFattura.setData(body.data());
         newFattura.setCliente(cliente);
-        newFattura.setAnno(LocalDate.now().getYear());
+        newFattura.setAnno(body.data().getYear());
         return fatturaRepository.save(newFattura);
     }
 
@@ -51,6 +51,8 @@ public class FatturaService {
         fattura.setImporto(body.importo());
         fattura.setStatoFattura(StatoFattura.valueOf(body.statoFattura()));
         fattura.setCliente(cliente);
+        fattura.setData(body.data());
+        fattura.setAnno(body.data().getYear());
         fatturaRepository.save(fattura);
         return fattura;
     }
