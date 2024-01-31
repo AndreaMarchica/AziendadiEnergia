@@ -23,7 +23,6 @@ public class Indirizzo {
     private String localita;
 
 
-
     @ManyToOne
     @JoinColumn
     private Comuni comuni;

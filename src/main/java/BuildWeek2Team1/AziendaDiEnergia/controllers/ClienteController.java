@@ -69,7 +69,7 @@ public class ClienteController {
         return new NewClienteResponseDTO(newCliente.getId());
     }
     @PutMapping("/{clienteId}")
-    public Cliente findAndUpdate(@PathVariable UUID clienteId, @RequestBody Cliente body) {
+    public Cliente findAndUpdate(@PathVariable UUID clienteId, @RequestBody NewClienteDTO body) {
         return clienteService.findByIdAndUpdate(clienteId, body);
     }
     @DeleteMapping("/{clienteId}")
