@@ -64,18 +64,17 @@ public class FatturaService {
                                     int page, int size, String orderBy) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
 
-        List<Fattura> fatture=  new ArrayList<>();
-
+        Set<Fattura> fatture=  new HashSet<>();
 
         if (importoGreater != 0 && importoLess != 0) {
-            List<Fattura> lista1=fatturaRepository.findByImportoBetween(importoLess,importoGreater);
+            Set<Fattura> lista1=fatturaRepository.findByImportoBetween(importoLess,importoGreater);
             fatture.addAll(lista1);
             System.out.println("importo");
             System.out.println(lista1);
         }
 
         if (data!= null) {
-            List<Fattura> lista1=fatturaRepository.findByData(data);
+            Set<Fattura> lista1=fatturaRepository.findByData(data);
             fatture.addAll(lista1);
             System.out.println("data");
 
@@ -84,19 +83,19 @@ public class FatturaService {
 
        if (!statoFattura.isEmpty()) {
            StatoFattura ok= StatoFattura.valueOf(statoFattura);
-           List<Fattura> lista1=fatturaRepository.findByStatoFattura(ok);
+           Set<Fattura> lista1=fatturaRepository.findByStatoFattura(ok);
            fatture.addAll(lista1);
            System.out.println("statofattura");
 
        }
         if (anno != 0) {
-            List<Fattura> lista1=fatturaRepository.findByAnno(anno);
+            Set<Fattura> lista1=fatturaRepository.findByAnno(anno);
             fatture.addAll(lista1);
             System.out.println("anno");
 
         }
         if (clientId != null) {
-            List<Fattura> lista1=fatturaRepository.findByClienteId(clientId);
+            Set<Fattura> lista1=fatturaRepository.findByClienteId(clientId);
             fatture.addAll(lista1);
             System.out.println("clientid");
 
@@ -106,9 +105,8 @@ public class FatturaService {
 
         System.out.println(fatture);
 
-        List<Fattura> filteredList=new ArrayList<>();
         if (importoGreater != 0 && importoLess != 0) {
-           fatture = fatture.stream().filter(f->f.getImporto()>importoLess&&f.getImporto()<importoGreater).toList();
+           fatture = fatture.stream().filter(f->f.getImporto()>importoLess&&f.getImporto()<importoGreater).collect(Collectors.toSet());
 
             System.out.println(fatture);
         }
@@ -116,20 +114,20 @@ public class FatturaService {
 
         if (data!= null) {
 
-            fatture= fatture.stream().filter(f->f.getData()==data).toList();
+            fatture= fatture.stream().filter(f->f.getData()==data).collect(Collectors.toSet());
         }
 
 
         if (!statoFattura.isEmpty()) {
-            fatture=fatture.stream().filter(f->f.getStatoFattura().equals(statoFattura)).toList();
+            fatture=fatture.stream().filter(f->f.getStatoFattura().equals(statoFattura)).collect(Collectors.toSet());
         }
         if (anno != 0) {
 
-            fatture=fatture.stream().filter(f->f.getAnno()==anno).toList();
+            fatture=fatture.stream().filter(f->f.getAnno()==anno).collect(Collectors.toSet());
         }
         if (clientId != null) {
 
-            fatture=fatture.stream().filter(f->f.getCliente().equals(clientId)).toList();
+            fatture=fatture.stream().filter(f->f.getCliente().equals(clientId)).collect(Collectors.toSet());
 
         }
 
@@ -139,8 +137,9 @@ public class FatturaService {
             System.out.println("true");
             return new PageImpl<>(list1, pageable, list1.size());
         }else{
-            System.out.println("false");
-        return new PageImpl<>(fatture, pageable, fatture.size());
+        List<Fattura> filteredList = new ArrayList<>();
+        filteredList.addAll(fatture);
+        return new PageImpl<>(filteredList, pageable, fatture.size());
         }
     }
 
