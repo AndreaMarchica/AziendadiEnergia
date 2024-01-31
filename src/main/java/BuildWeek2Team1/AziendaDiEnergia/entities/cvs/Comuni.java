@@ -24,10 +24,7 @@ public class Comuni {
     @Column(name = "denominazione")
     private String denominazione;
     private String Provincia;
-    @Transient
     private String regione;
-
-    @Transient
     private String sigla;
 
 

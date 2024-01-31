@@ -1,6 +1,7 @@
 package BuildWeek2Team1.AziendaDiEnergia.payloads.clienti;
 
 import BuildWeek2Team1.AziendaDiEnergia.entities.RagioneSociale;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -36,6 +37,23 @@ public record NewClienteDTO(
         @NotNull(message ="Campo obbligatorio")
         String telefonoContatto,
         @NotNull(message ="Campo obbligatorio")
-        String logoAziendale
+        String logoAziendale,
+        @NotEmpty(message ="Campo obbligatorio")
+        String indirizzo1Adress,
+        @NotNull(message ="Campo obbligatorio")
+        int indirizzo1Civico,
+        @NotNull(message ="Campo obbligatorio")
+        long indirizzo1Cap,
+        @NotEmpty(message ="Campo obbligatorio")
+        String indirizzo1Localita,
+
+        @Nullable
+        String indirizzo2Adress,
+        @Nullable
+        int indirizzo2Civico,
+        @Nullable
+        long indirizzo2Cap,
+        @Nullable
+        String indirizzo2Localita
 ) {
 }

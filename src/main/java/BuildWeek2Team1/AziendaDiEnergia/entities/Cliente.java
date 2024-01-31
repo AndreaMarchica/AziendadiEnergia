@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 @Entity
@@ -31,9 +32,14 @@ public class Cliente {
     private String telefonoContatto;
     private String logoAziendale;
 
-  @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
-    @JsonIgnore
-    List<Indirizzo> indirizzi;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "indirizzo1")
+    private Indirizzo indirizzo1;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "indirizzo2")
+    private Indirizzo indirizzo2;
     /*    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
       @JsonIgnore
       List<Fattura> fatture;*/
@@ -88,5 +94,13 @@ public class Cliente {
 
     public void setLogoAziendale(String logoAziendale) {
         this.logoAziendale = logoAziendale;
+    }
+
+    public void setIndirizzo1(Indirizzo indirizzo1) {
+        this.indirizzo1 = indirizzo1;
+    }
+
+    public void setIndirizzo2(Indirizzo indirizzo2) {
+        this.indirizzo2 = indirizzo2;
     }
 }

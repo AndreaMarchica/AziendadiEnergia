@@ -1,3 +1,6 @@
+
+/*
+
 package BuildWeek2Team1.AziendaDiEnergia.runner;
 
 
@@ -48,3 +51,4 @@ public class IndirizzoRunner implements CommandLineRunner {
         }
     }
 }
+*/
