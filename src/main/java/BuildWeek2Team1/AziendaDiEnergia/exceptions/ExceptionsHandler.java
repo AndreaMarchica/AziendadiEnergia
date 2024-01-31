@@ -77,4 +77,10 @@ public class ExceptionsHandler {
     public ErrorsPayload handleProvinceNotFound(IndirizzoAlreadyPresentException e) {
         return new ErrorsPayload("Indirizzo già presente nel db" + e.getMessage(), LocalDateTime.now());
     }
+
+    @ExceptionHandler(IndirizzoNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsPayload handleProvinceNotFound(IndirizzoNotFoundException e) {
+        return new ErrorsPayload( e.getMessage(), LocalDateTime.now());
+    }
 }

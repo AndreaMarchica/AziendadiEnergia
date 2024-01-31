@@ -112,7 +112,7 @@ public class ClienteService {
         found.setTelefonoContatto(body.telefonoContatto());
         found.setLogoAziendale(body.logoAziendale());
 
-        if (found.getIndirizzo1() != null) {
+        if (found.getIndirizzo1() != null ) {
             Indirizzo indirizzo1 = found.getIndirizzo1();
             indirizzo1.setAdress(body.indirizzo1Adress());
             indirizzo1.setCivico(body.indirizzo1Civico());
@@ -128,6 +128,7 @@ public class ClienteService {
             indirizzo2.setCap(body.indirizzo2Cap());
             indirizzo2.setLocalita(body.indirizzo2Localita());
         }
+
         return clienteRepository.save(found);
 
 

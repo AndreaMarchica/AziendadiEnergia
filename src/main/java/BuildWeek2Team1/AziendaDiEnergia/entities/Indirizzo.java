@@ -10,7 +10,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@ToString
 @Entity
 @Table(name = "indirizzo")
 public class Indirizzo {
@@ -32,4 +31,18 @@ public class Indirizzo {
     private String regione;
     private String sigla;
 
+    @Override
+    public String toString() {
+        return "Indirizzo{" +
+                "id=" + id +
+                ", adress='" + adress + '\'' +
+                ", civico=" + civico +
+                ", cap=" + cap +
+                ", localita='" + localita + '\'' +
+                ", comuni=" + comuni +
+                ", codiceProvincia='" + codiceProvincia + '\'' +
+                ", progressivo='" + progressivo + '\'' +
+                ", provincia='" + provincia + '\'' +
+                '}';
+    }
 }
