@@ -5,7 +5,6 @@ import BuildWeek2Team1.AziendaDiEnergia.entities.Cliente;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Indirizzo;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.NotFoundException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteDTO;
-import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteResponseDTO;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.ClienteRepository;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.IndirizzoRepo;
 import jakarta.transaction.Transactional;
@@ -17,11 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {

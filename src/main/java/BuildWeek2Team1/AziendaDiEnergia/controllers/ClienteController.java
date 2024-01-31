@@ -1,8 +1,11 @@
 package BuildWeek2Team1.AziendaDiEnergia.controllers;
 
+import BuildWeek2Team1.AziendaDiEnergia.config.EmailSender;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Cliente;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Role;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.BadRequestException;
+import BuildWeek2Team1.AziendaDiEnergia.exceptions.NotFoundException;
+import BuildWeek2Team1.AziendaDiEnergia.payloads.EmailDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteResponseDTO;
 import BuildWeek2Team1.AziendaDiEnergia.services.ClienteService;
@@ -17,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Locale;
 import java.util.UUID;
@@ -26,6 +30,10 @@ import java.util.UUID;
 public class ClienteController {
     @Autowired
     ClienteService clienteService;
+
+    @Autowired
+    private EmailSender emailSender;
+
 
     @GetMapping("")
     public Page<Cliente> getClienti(
@@ -41,7 +49,7 @@ public class ClienteController {
         if (minimo > 0 || massimo < 99999999) {
             Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(sortBy));
             return clienteService.getClientiByFatturatoAnnuale(minimo, massimo, pageable);
-        } else if (dataInserimento != null){
+        } else if (dataInserimento != null) {
             Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(sortBy));
             return clienteService.getClientiByDataInserimento(dataInserimento, pageable);
         } else if (dataUltimoContatto != null) {
@@ -68,13 +76,26 @@ public class ClienteController {
         Cliente newCliente = clienteService.save(body);
         return new NewClienteResponseDTO(newCliente.getId());
     }
+
     @PutMapping("/{clienteId}")
     public Cliente findAndUpdate(@PathVariable UUID clienteId, @RequestBody Cliente body) {
         return clienteService.findByIdAndUpdate(clienteId, body);
     }
+
     @DeleteMapping("/{clienteId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findAndDelete(@PathVariable UUID clienteId) {
         clienteService.findByIdAndDelete(clienteId);
+    }
+    @PostMapping("/{clienteId}/send-email")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void sendEmailToCliente(@PathVariable UUID clienteId, @RequestBody EmailDTO emailDTO) {
+        Cliente cliente = clienteService.findById(clienteId);
+        if (cliente != null) {
+            EmailSender.sendEmail(cliente, emailDTO);
+        } else {
+            // Gestisci il caso in cui il cliente non sia stato trovato
+            throw new NotFoundException("Cliente non trovato con l'ID specificato");
+        }
     }
 }
