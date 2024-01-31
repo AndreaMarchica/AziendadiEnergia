@@ -40,6 +40,8 @@ public class AuthService {
 
     public UtenteRespondDto save(UtenteRequestDto body){
         Utente utente = new Utente();
+        Optional<Utente> checkEmail= utenteRepository.findByEmail(body.email());
+        if(checkEmail.isEmpty()){
         utente.setUsername(body.username());
         utente.setEmail(body.email());
         utente.setPassword(bcrypt.encode(body.password()));
@@ -49,6 +51,9 @@ public class AuthService {
         utente.setRuolo(Role.USER);
         utenteRepository.save(utente);
         return new UtenteRespondDto(utente.getUuid(),utente.getUsername(), utente.getEmail());
+        }else{
+            throw new EmailAlreadyInDbException(body.email());
+        }
     }
 
     public UtenteRespondDto put(UtenteRequestDto body, UUID uuid){

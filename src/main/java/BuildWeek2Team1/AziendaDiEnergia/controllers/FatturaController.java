@@ -1,12 +1,13 @@
 package BuildWeek2Team1.AziendaDiEnergia.controllers;
 
+
 import BuildWeek2Team1.AziendaDiEnergia.entities.Fattura;
-import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPostDTO;
-import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPutDTO;
+import BuildWeek2Team1.AziendaDiEnergia.exceptions.BadRequestException;
+import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPayloads.FatturaPostDTO;
+import BuildWeek2Team1.AziendaDiEnergia.payloads.FatturaPayloads.FatturaPutDTO;
 import BuildWeek2Team1.AziendaDiEnergia.services.ClienteService;
 import BuildWeek2Team1.AziendaDiEnergia.services.FatturaService;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @RestController
@@ -27,29 +29,31 @@ public class FatturaController {
     private ClienteService clienteService;
 
 
-/*    @PostMapping("")
+    @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
-    public Fattura saveFattura(@RequestBody @Validated FatturaPostDTO body, BindingResult validation) throws Exception {
+    public Fattura saveFattura(@RequestBody @Validated FatturaPostDTO body, BindingResult validation) {
         if (validation.hasErrors()) {
-            throw new BadRequestException(String.valueOf(validation.getAllErrors()));
+            throw new BadRequestException("errore nel payload!"+validation.getAllErrors());
         } else {
             return fatturaService.save(body);
         }
-    }*/
+    }
 
     @GetMapping("")
     public Page<Fattura> getFatturaByFiltro(
 
             @RequestParam(defaultValue = "") String statoFattura,
-            @RequestParam(defaultValue = "") String data,
+            @RequestParam(defaultValue = "") LocalDate data,
             @RequestParam(defaultValue = "0") int anno,
             @RequestParam(defaultValue = "") UUID clientId,
-            @RequestParam(defaultValue = "0") double importoMin,
-            @RequestParam(defaultValue = "0") double importoMax,
+            @RequestParam(defaultValue = "0") double importoLess,
+            @RequestParam(defaultValue = "0") double importoGreater,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String orderBy) {
-        return fatturaService.getFatture(importoMax, importoMin, data, statoFattura, anno, clientId, page, size, orderBy);
+        return fatturaService.getFatture(
+                importoGreater,importoLess, data, statoFattura, anno, clientId,
+                page, size, orderBy);
     }
 
     @GetMapping("/{idNumero}")
@@ -57,14 +61,14 @@ public class FatturaController {
         return fatturaService.findById(idNumero);
     }
 
-/*    @PutMapping("/{idNumero}")
+   @PutMapping("/{idNumero}")
     public Fattura findAndUpdateById(@PathVariable UUID idNumero, @RequestBody @Validated FatturaPutDTO body, BindingResult validation) throws Exception {
         if (validation.hasErrors()) {
             throw new BadRequestException(String.valueOf(validation.getAllErrors()));
         } else {
             return fatturaService.findAndUpdateById(idNumero, body);
         }
-    }*/
+    }
 
     @DeleteMapping("/{idNumero}")
     @PreAuthorize("hasAuthority('ADMIN')")
