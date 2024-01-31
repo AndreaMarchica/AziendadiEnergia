@@ -18,7 +18,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService {
@@ -75,17 +78,24 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public Page<Cliente> getClienti(int page, int size, String sort) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sort));
+    public Page<Cliente> getClienti(int pageNumber, int size, String sort) {
+        Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(sort));
         return clienteRepository.findAll(pageable);
     }
+
+    public List<Cliente> getClienti2(int pageNumber, int size, String sort) {
+        return clienteRepository.findAll();
+    }
+
     public Cliente findById(UUID id) {
         return clienteRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
     }
-    public void findByIdAndDelete(UUID id){
+
+    public void findByIdAndDelete(UUID id) {
         Cliente found = this.findById(id);
         clienteRepository.delete(found);
     }
+
     public Cliente findByIdAndUpdate(UUID id, Cliente body) {
 
         Cliente found = this.findById(id);
@@ -123,7 +133,24 @@ public class ClienteService {
 
 
     }
+
     public Cliente findByEmail(String email) throws NotFoundException {
         return clienteRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Cliente con email " + email + " non trovata!"));
     }
+
+    public Page<Cliente> getClientiByFatturatoAnnuale(long minimo, long massimo, Pageable pageable) {
+        return clienteRepository.findByFatturatoAnnualeBetween(minimo, massimo, pageable);
+    }
+
+    public Page<Cliente> getClientiByDataInserimento(LocalDate dataDiInserimento, Pageable pageable) {
+        return clienteRepository.findByDataInserimento(dataDiInserimento, pageable);
+    }
+    public Page<Cliente> getClientiByDataUltimoContatto(LocalDate dataUltimoContato, Pageable pageable){
+        return clienteRepository.findByDataUltimoContatto(dataUltimoContato, pageable);
+    }
+    public Page<Cliente> getClientiByNomeContattoContaining(String nomeContatto, Pageable pageable){
+        return clienteRepository.findByNomeContattoContainingIgnoreCase(nomeContatto, pageable);
+
+    }
+
 }
