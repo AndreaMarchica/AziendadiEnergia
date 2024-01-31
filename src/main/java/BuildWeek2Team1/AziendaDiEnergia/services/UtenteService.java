@@ -1,10 +1,15 @@
 package BuildWeek2Team1.AziendaDiEnergia.services;
 
 
+import BuildWeek2Team1.AziendaDiEnergia.entities.Fattura;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Utente;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.NotFoundException;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.UtenteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,8 +24,10 @@ public class UtenteService {
 
 
 
-    public List<Utente> getAll(){
-        return utenteDao.findAll();
+    public Page<Utente> getAll(int page,int size,String orderBy) {
+        if(size>=20) size=20;
+        Pageable pageable= PageRequest.of(page,size, Sort.by(orderBy));
+        return utenteDao.findAll(pageable);
     }
 
 

@@ -8,6 +8,7 @@ import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRespondDto
 import BuildWeek2Team1.AziendaDiEnergia.services.AuthService;
 import BuildWeek2Team1.AziendaDiEnergia.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,8 +31,10 @@ public class UtenteController {
     @GetMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<Utente> findAll(){
-        return utenteService.getAll();
+    public Page<Utente> findAll(@RequestParam(defaultValue = "0")int page,
+                                @RequestParam(defaultValue = "10")int size,
+                                @RequestParam(defaultValue = "uuid")String ordetBy){
+        return utenteService.getAll(page, size, ordetBy);
     }
 
     @GetMapping("/{uuid}")
