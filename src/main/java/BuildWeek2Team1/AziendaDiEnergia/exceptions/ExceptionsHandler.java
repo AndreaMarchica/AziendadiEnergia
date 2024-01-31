@@ -61,5 +61,20 @@ public class ExceptionsHandler {
     public ErrorsPayload handleEmailAlreadyInDb(Exception ex) {
         return new ErrorsPayload(ex.getMessage(), LocalDateTime.now());
     }
+    @ExceptionHandler(ComuniNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorsPayload handleComuniNotFound(ComuniNotFoundException e) {
+        return new ErrorsPayload("Località non trovata" + e.getMessage(), LocalDateTime.now());
+    }
+    @ExceptionHandler(ProvinceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorsPayload handleProvinceNotFound(ProvinceNotFoundException e) {
+        return new ErrorsPayload("Provincia non trovata: " + e.getMessage(), LocalDateTime.now());
+    }
 
+    @ExceptionHandler(IndirizzoAlreadyPresentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsPayload handleProvinceNotFound(IndirizzoAlreadyPresentException e) {
+        return new ErrorsPayload("Indirizzo già presente nel db" + e.getMessage(), LocalDateTime.now());
+    }
 }

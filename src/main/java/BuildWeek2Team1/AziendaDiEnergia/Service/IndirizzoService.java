@@ -3,6 +3,9 @@ package BuildWeek2Team1.AziendaDiEnergia.Service;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Indirizzo;
 import BuildWeek2Team1.AziendaDiEnergia.entities.cvs.Comuni;
 import BuildWeek2Team1.AziendaDiEnergia.entities.cvs.Province;
+import BuildWeek2Team1.AziendaDiEnergia.exceptions.ComuniNotFoundException;
+import BuildWeek2Team1.AziendaDiEnergia.exceptions.IndirizzoAlreadyPresentException;
+import BuildWeek2Team1.AziendaDiEnergia.exceptions.ProvinceNotFoundException;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.ComuniRepository;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.IndirizzoRepo;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.ProvinceRepository;
@@ -28,24 +31,41 @@ public class IndirizzoService {
 
     public void saveIndirizzo(Indirizzo indirizzo) {
         String localita = indirizzo.getLocalita();
-        Optional<Comuni> comuniOptional = comuniRepository.findByDenominazione(localita);
-        if (comuniOptional.isPresent()) {
-            Comuni comuni = comuniOptional.get();
-            Optional<Province> provinceOptional = provinceRepository.findByProvincia(comuni.getProvincia());
-            if (provinceOptional.isPresent()) {
-                Province province = provinceOptional.get();
-                indirizzo.setRegione(province.getRegione());
-                indirizzo.setSigla(province.getSigla());
-                indirizzo.setComuni(comuni);
-                indirizzo.setCodiceProvincia(comuni.getCodice_Provincia());
-                indirizzo.setProgressivo(comuni.getProgressivo_del_Comune());
-                indirizzo.setProvincia(comuni.getProvincia());
-                indirizzoRepo.save(indirizzo);
-            } else {
-                System.out.println("Province non trovata per  Comune: " + comuni.getDenominazione());
+        long cap = indirizzo.getCap();
+        String adress = indirizzo.getAdress();
+
+
+        Optional<Indirizzo> existingIndirizzo = indirizzoRepo.findByAdressAndCapAndLocalita(adress, cap, localita);
+
+        if (existingIndirizzo.isPresent()) {
+            Indirizzo foundIndirizzo = existingIndirizzo.get();
+            if (foundIndirizzo.getCap() == cap) {
+                throw new IndirizzoAlreadyPresentException("Indirizzo already present with the same details, but different cap.");
             }
+            System.out.println("Indirizzo already present with the same details and cap.");
         } else {
-            System.out.println("Comuni not found for Localita: " + localita);
+            Optional<Comuni> comuniOptional = comuniRepository.findByDenominazione(localita);
+
+            if (comuniOptional.isPresent()) {
+                Comuni comuni = comuniOptional.get();
+                Optional<Province> provinceOptional = provinceRepository.findByProvincia(comuni.getProvincia());
+                if (provinceOptional.isPresent()) {
+                    Province province = provinceOptional.get();
+                    indirizzo.setRegione(province.getRegione());
+                    indirizzo.setSigla(province.getSigla());
+                    indirizzo.setComuni(comuni);
+                    indirizzo.setCodiceProvincia(comuni.getCodice_Provincia());
+                    indirizzo.setProgressivo(comuni.getProgressivo_del_Comune());
+                    indirizzo.setProvincia(comuni.getProvincia());
+                    indirizzoRepo.save(indirizzo);
+                } else {
+                    System.out.println("Province non trovata per  Comune: " + comuni.getDenominazione());
+                    throw new ProvinceNotFoundException("Province not found: " + comuni.getDenominazione());
+                }
+            } else {
+                System.out.println("Comuni not found for Localita: " + localita);
+                throw new ComuniNotFoundException("Località non presente del db : " + localita);
+            }
         }
     }
     public List<Indirizzo> getAllIndirizzi() {
