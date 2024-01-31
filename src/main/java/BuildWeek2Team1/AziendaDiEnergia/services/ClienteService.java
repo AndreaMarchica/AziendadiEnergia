@@ -113,22 +113,31 @@ public class ClienteService {
         found.setTelefonoContatto(body.getTelefonoContatto());
         found.setLogoAziendale(body.getLogoAziendale());
 
-        if (found.getIndirizzo1() != null) {
+        if (found.getIndirizzo1() != null ) {
             Indirizzo indirizzo1 = found.getIndirizzo1();
+            System.out.println(found);
+            System.out.println(indirizzo1);
             indirizzo1.setAdress(body.getIndirizzo1().getAdress());
             indirizzo1.setCivico(body.getIndirizzo1().getCivico());
             indirizzo1.setCap(body.getIndirizzo1().getCap());
             indirizzo1.setLocalita(body.getIndirizzo1().getLocalita());
+            indirizzoService.saveIndirizzo(indirizzo1);
+
         }
 
 
-        if (found.getIndirizzo2() != null) {
-            Indirizzo indirizzo2 = found.getIndirizzo2();
+        Indirizzo indirizzo2 = found.getIndirizzo2();
+        if (indirizzo2 != null && body.getIndirizzo2() != null) {
+
             indirizzo2.setAdress(body.getIndirizzo2().getAdress());
             indirizzo2.setCivico(body.getIndirizzo2().getCivico());
             indirizzo2.setCap(body.getIndirizzo2().getCap());
             indirizzo2.setLocalita(body.getIndirizzo2().getLocalita());
+            indirizzoService.saveIndirizzo(indirizzo2);
+        } else if (indirizzo2 != null) {
+
         }
+
         return clienteRepository.save(found);
 
 

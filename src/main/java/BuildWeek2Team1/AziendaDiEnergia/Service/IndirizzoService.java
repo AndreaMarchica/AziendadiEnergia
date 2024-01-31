@@ -5,6 +5,7 @@ import BuildWeek2Team1.AziendaDiEnergia.entities.cvs.Comuni;
 import BuildWeek2Team1.AziendaDiEnergia.entities.cvs.Province;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.ComuniNotFoundException;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.IndirizzoAlreadyPresentException;
+import BuildWeek2Team1.AziendaDiEnergia.exceptions.IndirizzoNotFoundException;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.ProvinceNotFoundException;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.ComuniRepository;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.IndirizzoRepo;
@@ -81,4 +82,29 @@ public class IndirizzoService {
     public void deleteIndirizzo(UUID id) {
         indirizzoRepo.deleteById(id);
     }
+    public void updateIndirizzo(UUID id, Indirizzo updatedIndirizzo) {
+        Optional<Indirizzo> existingIndirizzoOptional = indirizzoRepo.findById(id);
+
+        if (existingIndirizzoOptional.isPresent()) {
+            Indirizzo existingIndirizzo = existingIndirizzoOptional.get();
+            String localita = updatedIndirizzo.getLocalita();
+            long cap = updatedIndirizzo.getCap();
+            String adress = updatedIndirizzo.getAdress();
+
+            Optional<Indirizzo> existingWithNewDetails = indirizzoRepo.findByAdressAndCapAndLocalita(adress, cap, localita);
+
+            if (existingWithNewDetails.isPresent()) {
+                throw new IndirizzoAlreadyPresentException("Indirizzo già esiste");
+            }
+
+            existingIndirizzo.setLocalita(localita);
+            existingIndirizzo.setCap(cap);
+            existingIndirizzo.setAdress(adress);
+
+            indirizzoRepo.save(existingIndirizzo);
+        } else {
+            throw new IndirizzoNotFoundException("Nessun indirizzo trovato con questo ID:  " + id);
+        }
+    }
+
 }
