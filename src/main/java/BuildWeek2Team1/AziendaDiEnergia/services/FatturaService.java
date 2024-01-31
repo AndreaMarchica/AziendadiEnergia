@@ -65,8 +65,7 @@ public class FatturaService {
         Pageable pageable = PageRequest.of(page, size, Sort.by(orderBy));
 
         List<Fattura> fatture=  new ArrayList<>();
-//        List<Fattura> fatture= fatturaRepository.findByStatoFatturaAndClienteIdAndAnnoAndDataAndImportoBetween(
-//                ok,clientId,anno,data,importoLess,importoGreater);
+
 
         if (importoGreater != 0 && importoLess != 0) {
             List<Fattura> lista1=fatturaRepository.findByImportoBetween(importoLess,importoGreater);
@@ -134,8 +133,15 @@ public class FatturaService {
 
         }
 
-
+        if(clientId == null && anno == 0 && statoFattura.isEmpty() && data== null && importoGreater == 0 && importoLess == 0)
+        {
+            List<Fattura> list1 = fatturaRepository.findAll();
+            System.out.println("true");
+            return new PageImpl<>(list1, pageable, list1.size());
+        }else{
+            System.out.println("false");
         return new PageImpl<>(fatture, pageable, fatture.size());
+        }
     }
 
 
