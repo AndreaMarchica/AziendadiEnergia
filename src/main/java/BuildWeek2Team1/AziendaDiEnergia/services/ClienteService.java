@@ -1,6 +1,7 @@
 package BuildWeek2Team1.AziendaDiEnergia.services;
 
 import BuildWeek2Team1.AziendaDiEnergia.Service.IndirizzoService;
+import BuildWeek2Team1.AziendaDiEnergia.config.EmailSender;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Cliente;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Indirizzo;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.NotFoundException;
@@ -13,6 +14,8 @@ import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.UUID;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,6 +27,7 @@ public class ClienteService {
     private IndirizzoRepo indirizzoRepo;
     @Autowired
     private IndirizzoService indirizzoService;
+
     @Transactional
     public Cliente save(NewClienteDTO body){
         Cliente cliente = new Cliente();
@@ -66,6 +70,7 @@ public class ClienteService {
         if (indirizzo2 != null) {
             indirizzoService.saveIndirizzo(indirizzo2);
         }
+
 
 
         return clienteRepository.save(cliente);
