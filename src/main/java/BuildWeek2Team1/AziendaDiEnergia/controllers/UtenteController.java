@@ -5,6 +5,7 @@ import BuildWeek2Team1.AziendaDiEnergia.entities.Utente;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.BadRequestException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRequestDto;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRespondDto;
+import BuildWeek2Team1.AziendaDiEnergia.repositories.UtenteRepository;
 import BuildWeek2Team1.AziendaDiEnergia.services.AuthService;
 import BuildWeek2Team1.AziendaDiEnergia.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,9 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +30,8 @@ public class UtenteController {
     private UtenteService utenteService;
     @Autowired
     private AuthService authService;
+    @Autowired
+    private UtenteRepository utenteRepository;
 
     @GetMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -70,4 +75,27 @@ public class UtenteController {
         return currentUser;
     }
 
+
+
+    @PutMapping("/me/upload")
+    public String uploadEventImage(@RequestParam("avatar") MultipartFile file, @AuthenticationPrincipal Utente currentUser) throws IOException {
+        String url = utenteService.uploadPicture(file);
+        Utente utente = currentUser;
+        utente.setUsername(utente.getUsername());
+        utente.setEmail(utente.getEmail());
+        utente.setPassword(utente.getPassword());
+        utente.setNome(utente.getNome());
+        utente.setCognome(utente.getCognome());
+        utente.setAvatar(url);
+        utenteRepository.save(utente);
+        return "ok immagine salvata " + url;
+    }
+    @PatchMapping("/{uuid}/upload")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String uploadEventImageByAdmin(@RequestParam("avatar") MultipartFile file,@PathVariable UUID uuid) throws IOException {
+        String url = utenteService.uploadPicture(file);
+        Utente utente = utenteService.findByUUID(uuid);
+        utente.setAvatar(url);
+        return "ok immagine salvata " + url;
+    }
 }
