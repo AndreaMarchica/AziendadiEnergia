@@ -14,16 +14,16 @@ import java.util.UUID;
 
 @Repository
 public interface FatturaRepository extends JpaRepository<Fattura, UUID> {
-    List<Fattura> findByImportoBetween(double importoMin, double importoMax);
+    Set<Fattura> findByImportoBetween(double importoMin, double importoMax);
 
 
-    List<Fattura> findByData(LocalDate data);
+    Set<Fattura> findByData(LocalDate data);
 
-    List<Fattura> findByAnno(int anno );
+    Set<Fattura> findByAnno(int anno );
 
-    List<Fattura> findByClienteId(UUID clienteId);
-    List<Fattura> findByStatoFattura(StatoFattura statoFattura);
-    List<Fattura> findByStatoFatturaAndClienteIdAndAnnoAndDataAndImportoBetween(StatoFattura statoFattura,
+    Set<Fattura> findByClienteId(UUID clienteId);
+    Set<Fattura> findByStatoFattura(StatoFattura statoFattura);
+    Set<Fattura> findByStatoFatturaAndClienteIdAndAnnoAndDataAndImportoBetween(StatoFattura statoFattura,
                                                                UUID clienteI,int anno,LocalDate data,
                                                                                 double importoMin, double importoMax);
 
