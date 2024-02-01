@@ -1,6 +1,7 @@
 package BuildWeek2Team1.AziendaDiEnergia.services;
 
 import BuildWeek2Team1.AziendaDiEnergia.Service.IndirizzoService;
+import BuildWeek2Team1.AziendaDiEnergia.config.CloudinaryConfig;
 import BuildWeek2Team1.AziendaDiEnergia.config.EmailSender;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Cliente;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Indirizzo;
@@ -8,11 +9,15 @@ import BuildWeek2Team1.AziendaDiEnergia.exceptions.NotFoundException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteDTO;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.ClienteRepository;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.IndirizzoRepo;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +32,8 @@ public class ClienteService {
     private IndirizzoRepo indirizzoRepo;
     @Autowired
     private IndirizzoService indirizzoService;
+    @Autowired
+    private Cloudinary cloudinaryUploader;
 
     @Transactional
     public Cliente save(NewClienteDTO body){
@@ -205,6 +212,12 @@ public class ClienteService {
     public Set<Cliente> getClientiByNomeContattoContaining(String nomeContatto){
         return clienteRepository.findByNomeContattoContainingIgnoreCase(nomeContatto);
 
+    }
+    public String uploadPicture(MultipartFile file) throws IOException {
+        String url= (String) cloudinaryUploader.uploader()
+                .upload(file.getBytes(), ObjectUtils.emptyMap())
+                .get("url");
+        return url;
     }
 
 }
