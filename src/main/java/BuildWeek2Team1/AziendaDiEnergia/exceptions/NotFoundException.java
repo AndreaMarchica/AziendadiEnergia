@@ -16,4 +16,6 @@ public class NotFoundException extends RuntimeException{
     public NotFoundException(Long numero){
         super("Elemento con id " + numero + " non trovato");
     }
+
+
 }

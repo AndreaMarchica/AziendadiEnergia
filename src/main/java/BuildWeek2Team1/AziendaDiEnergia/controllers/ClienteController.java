@@ -31,7 +31,7 @@ public class ClienteController {
 
     @GetMapping("")
     public Page<Cliente> getClienti(
-            @RequestParam(defaultValue = "") String nomeContatto,
+            @RequestParam(defaultValue = "*") String nomeContatto,
             @RequestParam(defaultValue = "") LocalDate dataUltimoContatto,
             @RequestParam(defaultValue = "") LocalDate dataInserimento,
             @RequestParam(defaultValue = "0") long minimo,
@@ -40,19 +40,20 @@ public class ClienteController {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sortBy) {
 
-        if (minimo > 0 || massimo < 99999999) {
+/*        if (minimo > 0 || massimo < 99999999) {
             Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(sortBy));
             return clienteService.getClientiByFatturatoAnnuale(minimo, massimo, pageable);
         } else if (dataInserimento != null) {
             Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(sortBy));
-            return clienteService.getClientiByDataInserimento(dataInserimento, pageable);
+            return clienteService.getClientiByDataInserimento(dataInserimento);
         } else if (dataUltimoContatto != null) {
             Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(sortBy));
-            return clienteService.getClientiByDataUltimoContatto(dataUltimoContatto, pageable);
+            return clienteService.getClientiByDataUltimoContatto(dataUltimoContatto);
         } else if (nomeContatto != null) {
             Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(sortBy));
-            return clienteService.getClientiByNomeContattoContaining(nomeContatto, pageable);
-        } else return clienteService.getClienti(pageNumber, size, sortBy);
+            return clienteService.getClientiByNomeContattoContaining(nomeContatto);
+        } else return clienteService.getClienti(pageNumber, size, sortBy);*/
+        return  clienteService.getClienti2(nomeContatto, dataUltimoContatto, dataInserimento, minimo, massimo, pageNumber, size, sortBy);
     }
 
 
@@ -74,7 +75,7 @@ public class ClienteController {
     }
 
     @PutMapping("/{clienteId}")
-    public Cliente findAndUpdate(@PathVariable UUID clienteId, @RequestBody Cliente body) {
+    public Cliente findAndUpdate(@PathVariable UUID clienteId, @RequestBody NewClienteDTO body) {
         return clienteService.findByIdAndUpdate(clienteId, body);
     }
 

@@ -51,9 +51,7 @@ public class FatturaController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String orderBy) {
-        return fatturaService.getFatture(
-                importoGreater,importoLess, data, statoFattura, anno, clientId,
-                page, size, orderBy);
+        return fatturaService.getFatture(importoGreater,importoLess, data, statoFattura, anno, clientId, page, size, orderBy);
     }
 
     @GetMapping("/{idNumero}")
