@@ -3,6 +3,7 @@ package BuildWeek2Team1.AziendaDiEnergia.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,8 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 @Entity
+@Setter
 @Getter
-@ToString
+
 public class Cliente {
     @Id
     @GeneratedValue
@@ -43,7 +45,10 @@ public class Cliente {
     /*    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
       @JsonIgnore
       List<Fattura> fatture;*/
-//metodi
+
+
+
+    //metodi
     public void setRagioneSociale(RagioneSociale ragioneSociale) {
         this.ragioneSociale = ragioneSociale;
     }
@@ -102,5 +107,26 @@ public class Cliente {
 
     public void setIndirizzo2(Indirizzo indirizzo2) {
         this.indirizzo2 = indirizzo2;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "id=" + id +
+                ", ragioneSociale=" + ragioneSociale +
+                ", partitaIva='" + partitaIva + '\'' +
+                ", email='" + email + '\'' +
+                ", dataInserimento=" + dataInserimento +
+                ", dataUltimoContatto=" + dataUltimoContatto +
+                ", fatturatoAnnuale=" + fatturatoAnnuale +
+                ", pec='" + pec + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", emailContatto='" + emailContatto + '\'' +
+                ", nomeContatto='" + nomeContatto + '\'' +
+                ", cognomeContatto='" + cognomeContatto + '\'' +
+                ", telefonoContatto='" + telefonoContatto + '\'' +
+                ", logoAziendale='" + logoAziendale + '\'' +
+                '}';
     }
 }

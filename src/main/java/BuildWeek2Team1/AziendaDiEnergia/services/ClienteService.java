@@ -1,17 +1,23 @@
 package BuildWeek2Team1.AziendaDiEnergia.services;
 
 import BuildWeek2Team1.AziendaDiEnergia.Service.IndirizzoService;
+import BuildWeek2Team1.AziendaDiEnergia.config.CloudinaryConfig;
+import BuildWeek2Team1.AziendaDiEnergia.config.EmailSender;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Cliente;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Indirizzo;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.NotFoundException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteDTO;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.ClienteRepository;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.IndirizzoRepo;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,6 +30,9 @@ public class ClienteService {
     private IndirizzoRepo indirizzoRepo;
     @Autowired
     private IndirizzoService indirizzoService;
+    @Autowired
+    private Cloudinary cloudinaryUploader;
+
     @Transactional
     public Cliente save(NewClienteDTO body){
         Cliente cliente = new Cliente();
@@ -66,6 +75,7 @@ public class ClienteService {
         if (indirizzo2 != null) {
             indirizzoService.saveIndirizzo(indirizzo2);
         }
+
 
 
         return clienteRepository.save(cliente);
@@ -145,39 +155,39 @@ public class ClienteService {
         clienteRepository.delete(found);
     }
 
-    public Cliente findByIdAndUpdate(UUID id, Cliente body) {
+    public Cliente findByIdAndUpdate(UUID id, NewClienteDTO body) {
 
         Cliente found = this.findById(id);
-        found.setRagioneSociale(body.getRagioneSociale());
-        found.setEmail(body.getEmail());
-        found.setPartitaIva(body.getPartitaIva());
-        found.setEmail(body.getEmail());
-        found.setDataUltimoContatto(body.getDataUltimoContatto());
-        found.setFatturatoAnnuale(body.getFatturatoAnnuale());
-        found.setPec(body.getPec());
-        found.setTelefono(body.getTelefono());
-        found.setEmailContatto(body.getEmailContatto());
-        found.setNomeContatto(body.getNomeContatto());
-        found.setCognomeContatto(body.getCognomeContatto());
-        found.setTelefonoContatto(body.getTelefonoContatto());
-        found.setLogoAziendale(body.getLogoAziendale());
+        found.setRagioneSociale(body.ragioneSociale());
+        found.setEmail(body.email());
+        found.setPartitaIva(body.partitaIva());
+        found.setDataUltimoContatto(body.dataUltimoContatto());
+        found.setFatturatoAnnuale(body.fatturatoAnnuale());
+        found.setPec(body.pec());
+        found.setTelefono(body.telefono());
+        found.setEmailContatto(body.emailContatto());
+        found.setNomeContatto(body.nomeContatto());
+        found.setCognomeContatto(body.cognomeContatto());
+        found.setTelefonoContatto(body.telefonoContatto());
+        found.setLogoAziendale(body.logoAziendale());
 
-        if (found.getIndirizzo1() != null) {
+        if (found.getIndirizzo1() != null ) {
             Indirizzo indirizzo1 = found.getIndirizzo1();
-            indirizzo1.setAdress(body.getIndirizzo1().getAdress());
-            indirizzo1.setCivico(body.getIndirizzo1().getCivico());
-            indirizzo1.setCap(body.getIndirizzo1().getCap());
-            indirizzo1.setLocalita(body.getIndirizzo1().getLocalita());
+            indirizzo1.setAdress(body.indirizzo1Adress());
+            indirizzo1.setCivico(body.indirizzo1Civico());
+            indirizzo1.setCap(body.indirizzo1Cap());
+            indirizzo1.setLocalita(body.indirizzo1Localita());
         }
 
 
         if (found.getIndirizzo2() != null) {
             Indirizzo indirizzo2 = found.getIndirizzo2();
-            indirizzo2.setAdress(body.getIndirizzo2().getAdress());
-            indirizzo2.setCivico(body.getIndirizzo2().getCivico());
-            indirizzo2.setCap(body.getIndirizzo2().getCap());
-            indirizzo2.setLocalita(body.getIndirizzo2().getLocalita());
+            indirizzo2.setAdress(body.indirizzo2Adress());
+            indirizzo2.setCivico(body.indirizzo2Civico());
+            indirizzo2.setCap(body.indirizzo2Cap());
+            indirizzo2.setLocalita(body.indirizzo2Localita());
         }
+
         return clienteRepository.save(found);
 
 
@@ -200,6 +210,12 @@ public class ClienteService {
     public Set<Cliente> getClientiByNomeContattoContaining(String nomeContatto){
         return clienteRepository.findByNomeContattoContainingIgnoreCase(nomeContatto);
 
+    }
+    public String uploadPicture(MultipartFile file) throws IOException {
+        String url= (String) cloudinaryUploader.uploader()
+                .upload(file.getBytes(), ObjectUtils.emptyMap())
+                .get("url");
+        return url;
     }
 
 }
