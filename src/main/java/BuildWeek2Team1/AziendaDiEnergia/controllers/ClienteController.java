@@ -2,10 +2,7 @@ package BuildWeek2Team1.AziendaDiEnergia.controllers;
 
 import BuildWeek2Team1.AziendaDiEnergia.config.EmailSender;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Cliente;
-import BuildWeek2Team1.AziendaDiEnergia.entities.Role;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.BadRequestException;
-import BuildWeek2Team1.AziendaDiEnergia.exceptions.NotFoundException;
-import BuildWeek2Team1.AziendaDiEnergia.payloads.EmailDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteResponseDTO;
 import BuildWeek2Team1.AziendaDiEnergia.services.ClienteService;
@@ -15,14 +12,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.UUID;
 
 @RestController
@@ -32,7 +26,7 @@ public class ClienteController {
     ClienteService clienteService;
 
     @Autowired
-    private EmailSender emailSender;
+     EmailSender emailSender;
 
 
     @GetMapping("")
@@ -73,6 +67,8 @@ public class ClienteController {
         if (validation.hasErrors()) {
             throw new BadRequestException(validation.getAllErrors());
         }
+//        emailSender.sendEmail("lorebalda93@gmail.com");
+        emailSender.sendEmail(body.email());
         Cliente newCliente = clienteService.save(body);
         return new NewClienteResponseDTO(newCliente.getId());
     }
@@ -87,15 +83,15 @@ public class ClienteController {
     public void findAndDelete(@PathVariable UUID clienteId) {
         clienteService.findByIdAndDelete(clienteId);
     }
-    @PostMapping("/{clienteId}/send-email")
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public void sendEmailToCliente(@PathVariable UUID clienteId, @RequestBody EmailDTO emailDTO) {
-        Cliente cliente = clienteService.findById(clienteId);
-        if (cliente != null) {
-            EmailSender.sendEmail(cliente, emailDTO);
-        } else {
-            // Gestisci il caso in cui il cliente non sia stato trovato
-            throw new NotFoundException("Cliente non trovato con l'ID specificato");
-        }
-    }
+//    @PostMapping("/{clienteId}/send-email")
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    public void sendEmailToCliente(@PathVariable UUID clienteId, @RequestBody EmailDTO emailDTO) {
+//        Cliente cliente = clienteService.findById(clienteId);
+//        if (cliente != null) {
+//            EmailSender.sendEmail(cliente, emailDTO);
+//        } else {
+//            // Gestisci il caso in cui il cliente non sia stato trovato
+//            throw new NotFoundException("Cliente non trovato con l'ID specificato");
+//        }
+//    }
 }
