@@ -63,6 +63,7 @@ public class AuthService {
         if (body.username() != null) utente.setUsername(body.username());
         if (body.nome() != null) utente.setNome(body.nome());
         if (body.cognome() != null) utente.setCognome(body.cognome());
+        if (body.role() != null) utente.setRuolo(body.role());
 
         utente.setAvatar(("https://ui-avatars.com/api/?name=" + utente.getNome() + "+" + utente.getCognome()));
 
