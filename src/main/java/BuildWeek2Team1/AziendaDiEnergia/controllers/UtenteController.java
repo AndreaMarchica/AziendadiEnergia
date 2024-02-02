@@ -5,6 +5,7 @@ import BuildWeek2Team1.AziendaDiEnergia.entities.Utente;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.BadRequestException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRequestDto;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRespondDto;
+import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.UtenteUpdateRequestDto;
 import BuildWeek2Team1.AziendaDiEnergia.repositories.UtenteRepository;
 import BuildWeek2Team1.AziendaDiEnergia.services.AuthService;
 import BuildWeek2Team1.AziendaDiEnergia.services.UtenteService;
@@ -60,15 +61,16 @@ public class UtenteController {
     @PutMapping("/{uuid}")
     @ResponseStatus(HttpStatus.OK)
     @PreAuthorize("hasAuthority('ADMIN')")
-    public UtenteRespondDto modify(@RequestBody @Validated UtenteRequestDto body,
-                                   @PathVariable UUID uuid, BindingResult bindingResult){
+    public UtenteRespondDto modify(@RequestBody @Validated UtenteUpdateRequestDto body,
+                                   @PathVariable UUID uuid, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             System.err.println(bindingResult.getAllErrors());
-            throw new BadRequestException("errore nel invio del payload per il metodo POST"+bindingResult.getAllErrors());
+            throw new BadRequestException("Error in payload for the PUT method" + bindingResult.getAllErrors());
         } else {
-            return authService.put(body,uuid);
+            return authService.put(body, uuid);
         }
     }
+     
 
     @GetMapping("/me")
     @ResponseStatus(HttpStatus.ACCEPTED)
