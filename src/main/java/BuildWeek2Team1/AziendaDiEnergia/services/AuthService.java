@@ -5,6 +5,7 @@ import BuildWeek2Team1.AziendaDiEnergia.entities.Utente;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.EmailAlreadyInDbException;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.UnauthorizedException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.AuthPayloads.AuthRequestDTO;
+import BuildWeek2Team1.AziendaDiEnergia.payloads.TokenRespondDto;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.AuthPayloads.TokenResponseDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRequestDto;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRespondDto;
@@ -63,6 +64,7 @@ public class AuthService {
         if (body.username() != null) utente.setUsername(body.username());
         if (body.nome() != null) utente.setNome(body.nome());
         if (body.cognome() != null) utente.setCognome(body.cognome());
+        if (body.role() != null) utente.setRuolo(body.role());
 
         utente.setAvatar(("https://ui-avatars.com/api/?name=" + utente.getNome() + "+" + utente.getCognome()));
 

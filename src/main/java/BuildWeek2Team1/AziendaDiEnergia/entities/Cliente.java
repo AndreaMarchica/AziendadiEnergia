@@ -42,10 +42,9 @@ public class Cliente {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "indirizzo2")
     private Indirizzo indirizzo2;
-    /*    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "cliente",cascade = CascadeType.REMOVE)
       @JsonIgnore
-      List<Fattura> fatture;*/
-
+      List<Fattura> fatture;
 
 
     //metodi

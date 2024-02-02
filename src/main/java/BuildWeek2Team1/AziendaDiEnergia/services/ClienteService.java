@@ -48,7 +48,7 @@ public class ClienteService {
         cliente.setNomeContatto(body.nomeContatto());
         cliente.setCognomeContatto(body.cognomeContatto());
         cliente.setTelefonoContatto(body.telefonoContatto());
-        cliente.setLogoAziendale(("https://ui-avatars.com/api/?name=" + body.nomeContatto() + "+" + body.cognomeContatto()));
+        cliente.setLogoAziendale("https://ui-avatars.com/api/?name=" + body.nomeContatto() + "+" + body.cognomeContatto());
 
 
 
@@ -86,7 +86,8 @@ public class ClienteService {
         return clienteRepository.findAll(pageable);
     }
 
-    public Page<Cliente> getClienti2(String nomeContatto, LocalDate dataUltimoContatto, LocalDate dataInserimento, long minimo, long massimo, int pageNumber, int size, String sort) {
+    public Page<Cliente> getClienti2(String nomeContatto, LocalDate dataUltimoContatto, LocalDate dataInserimento,
+                                     long minimo, long massimo, int pageNumber, int size, String sort) {
         Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(sort));
         Set<Cliente> clienti = new HashSet<>();
 
@@ -169,6 +170,7 @@ public class ClienteService {
         found.setNomeContatto(body.nomeContatto());
         found.setCognomeContatto(body.cognomeContatto());
         found.setTelefonoContatto(body.telefonoContatto());
+        found.setLogoAziendale(body.logoAziendale());
 
         if (found.getIndirizzo1() != null ) {
             Indirizzo indirizzo1 = found.getIndirizzo1();
