@@ -5,6 +5,7 @@ import BuildWeek2Team1.AziendaDiEnergia.entities.Utente;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.EmailAlreadyInDbException;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.UnauthorizedException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.AuthPayloads.AuthRequestDTO;
+import BuildWeek2Team1.AziendaDiEnergia.payloads.AuthPayloads.TokenResponseDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRequestDto;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRespondDto;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.UtenteUpdateRequestDto;
@@ -30,10 +31,10 @@ public class AuthService {
     @Autowired
     private JWTTtools jwtTtools;
 
-    public String authenticateUser(AuthRequestDTO body){
+    public TokenResponseDTO authenticateUser(AuthRequestDTO body){
         Utente utente=  utenteService.findByEmail(body.email());
         if (bcrypt.matches(body.password(), utente.getPassword())) {
-            return jwtTtools.createToken(utente);
+            return new TokenResponseDTO(jwtTtools.createToken(utente));
         } else {
             throw new UnauthorizedException("Credenziali non valide!");
         }

@@ -33,7 +33,7 @@ public class SecurityConfig {
         httpSecurity.formLogin(AbstractHttpConfigurer::disable);
         httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
-    httpSecurity.cors(Customizer.withDefaults()); // cors
+        httpSecurity.cors(Customizer.withDefaults());
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
         httpSecurity.authorizeHttpRequests(request -> request.requestMatchers("/**").permitAll());
         return httpSecurity.build();
@@ -48,11 +48,12 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://127.0.0.1:3000/", "http://localhost:3000"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
+        // Registro la configurazione CORS fatta su tutti gli endpoint della mia applicazione
         return source;
     }
 }

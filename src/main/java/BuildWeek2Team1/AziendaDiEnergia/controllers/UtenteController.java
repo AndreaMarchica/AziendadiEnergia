@@ -99,6 +99,7 @@ public class UtenteController {
         String url = utenteService.uploadPicture(file);
         Utente utente = utenteService.findByUUID(uuid);
         utente.setAvatar(url);
+        utenteRepository.save(utente);
         return "ok immagine salvata " + url;
     }
 }

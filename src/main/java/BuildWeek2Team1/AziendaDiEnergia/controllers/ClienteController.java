@@ -2,9 +2,11 @@ package BuildWeek2Team1.AziendaDiEnergia.controllers;
 
 import BuildWeek2Team1.AziendaDiEnergia.config.EmailSender;
 import BuildWeek2Team1.AziendaDiEnergia.entities.Cliente;
+import BuildWeek2Team1.AziendaDiEnergia.entities.Utente;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.BadRequestException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.clienti.NewClienteResponseDTO;
+import BuildWeek2Team1.AziendaDiEnergia.repositories.ClienteRepository;
 import BuildWeek2Team1.AziendaDiEnergia.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,10 +14,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -27,6 +33,8 @@ public class ClienteController {
 
     @Autowired
      EmailSender emailSender;
+    @Autowired
+    private ClienteRepository clienteRepository;
 
 
     @GetMapping("")
@@ -84,15 +92,13 @@ public class ClienteController {
     public void findAndDelete(@PathVariable UUID clienteId) {
         clienteService.findByIdAndDelete(clienteId);
     }
-//    @PostMapping("/{clienteId}/send-email")
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public void sendEmailToCliente(@PathVariable UUID clienteId, @RequestBody EmailDTO emailDTO) {
-//        Cliente cliente = clienteService.findById(clienteId);
-//        if (cliente != null) {
-//            EmailSender.sendEmail(cliente, emailDTO);
-//        } else {
-//            // Gestisci il caso in cui il cliente non sia stato trovato
-//            throw new NotFoundException("Cliente non trovato con l'ID specificato");
-//        }
-//    }
+
+    @PatchMapping("/{uuid}/upload")
+    public String uploadEventImageByAdmin(@RequestParam("avatar") MultipartFile file,@PathVariable UUID uuid) throws IOException {
+        String url = clienteService.uploadPicture(file);
+        Cliente cliente = clienteService.findById(uuid);
+        cliente.setLogoAziendale(url);
+        clienteRepository.save(cliente);
+        return "ok immagine salvata " + url;
+    }
 }
