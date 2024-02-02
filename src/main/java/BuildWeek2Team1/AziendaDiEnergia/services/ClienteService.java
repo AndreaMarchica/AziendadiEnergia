@@ -48,7 +48,7 @@ public class ClienteService {
         cliente.setNomeContatto(body.nomeContatto());
         cliente.setCognomeContatto(body.cognomeContatto());
         cliente.setTelefonoContatto(body.telefonoContatto());
-        cliente.setLogoAziendale(body.logoAziendale());
+        cliente.setLogoAziendale(("https://ui-avatars.com/api/?name=" + body.nomeContatto() + "+" + body.cognomeContatto()));
 
 
 
@@ -169,7 +169,6 @@ public class ClienteService {
         found.setNomeContatto(body.nomeContatto());
         found.setCognomeContatto(body.cognomeContatto());
         found.setTelefonoContatto(body.telefonoContatto());
-        found.setLogoAziendale(body.logoAziendale());
 
         if (found.getIndirizzo1() != null ) {
             Indirizzo indirizzo1 = found.getIndirizzo1();
