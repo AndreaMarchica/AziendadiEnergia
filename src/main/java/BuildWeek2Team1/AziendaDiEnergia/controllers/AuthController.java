@@ -3,6 +3,7 @@ package BuildWeek2Team1.AziendaDiEnergia.controllers;
 import BuildWeek2Team1.AziendaDiEnergia.exceptions.BadRequestException;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.AuthPayloads.AuthRequestDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.TokenRespondDto;
+import BuildWeek2Team1.AziendaDiEnergia.payloads.AuthPayloads.TokenResponseDTO;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRequestDto;
 import BuildWeek2Team1.AziendaDiEnergia.payloads.UtentePayloads.UtenteRespondDto;
 import BuildWeek2Team1.AziendaDiEnergia.services.AuthService;
@@ -36,7 +37,7 @@ public class AuthController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.OK)
-    public TokenRespondDto generateToken(@RequestBody AuthRequestDTO body){
+    public TokenResponseDTO generateToken(@RequestBody AuthRequestDTO body){
         return authService.authenticateUser(body);
     }
 
