@@ -91,7 +91,7 @@ public class ClienteService {
         Pageable pageable = PageRequest.of(pageNumber, size, Sort.by(sort));
         Set<Cliente> clienti = new HashSet<>();
 
-        if (minimo > 0 && massimo < 99999999){
+        if (minimo != 0 && massimo != 99999999){
             Set<Cliente> lista1 = clienteRepository.findByFatturatoAnnualeBetween(minimo, massimo);
             clienti.addAll(lista1);
             System.out.println(lista1 + "Prima condizione");
@@ -115,23 +115,28 @@ public class ClienteService {
 
         }
 
+        System.out.println(clienti+"qua");
+        System.out.println("perche non si vede!qua");
+
         //Secondo filtraggio
 
-        if (minimo > 0 && massimo < 99999999){
+        if (minimo != 0 && massimo != 99999999){
             clienti = clienti.stream().filter(cliente -> cliente.getFatturatoAnnuale() > minimo && cliente.getFatturatoAnnuale() < massimo).collect(Collectors.toSet());
+            System.out.println(clienti+"prima della seconda");
         }
 
         if (dataUltimoContatto != null) {
             clienti = clienti.stream().filter(cliente -> cliente.getDataUltimoContatto().isEqual(dataUltimoContatto)).collect(Collectors.toSet());
+            System.out.println(clienti+ "secodna della seconda");
         }
 
         if (dataInserimento != null) {
             clienti = clienti.stream().filter(cliente -> cliente.getDataInserimento().isEqual(dataInserimento)).collect(Collectors.toSet());
-
+            System.out.println(clienti+"terza della seconda");
         }
-        if (nomeContatto != null) {
+        if (!nomeContatto.equals("*")) {
             clienti = clienti.stream().filter(cliente -> cliente.getNomeContatto().contains(nomeContatto)).collect(Collectors.toSet());
-
+            System.out.println(clienti+"quarta della seconda");
         }
         List<Cliente> filteredList = new ArrayList<>();
         if(minimo == 0 && massimo == 99999999 && dataUltimoContatto == null && dataInserimento == null && nomeContatto.equals("*")){
@@ -142,8 +147,6 @@ public class ClienteService {
             filteredList.addAll(clienti);
             System.out.println("False");
             return new PageImpl<>(filteredList, pageable, clienti.size());
-
-
         }
     }
 
