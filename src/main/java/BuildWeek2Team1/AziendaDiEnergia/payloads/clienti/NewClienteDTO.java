@@ -36,8 +36,6 @@ public record NewClienteDTO(
         String cognomeContatto,
         @NotNull(message ="Il telefono del contatto è obbligatorio")
         String telefonoContatto,
-        @NotNull(message ="Il logo aziendale obbligatorio")
-        String logoAziendale,
         @NotEmpty(message ="Campo obbligatorio")
         String indirizzo1Adress,
         @NotNull(message ="Campo obbligatorio")
@@ -46,7 +44,6 @@ public record NewClienteDTO(
         long indirizzo1Cap,
         @NotEmpty(message ="Campo obbligatorio")
         String indirizzo1Localita,
-
         @Nullable
         String indirizzo2Adress,
         @Nullable
